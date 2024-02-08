@@ -1,6 +1,7 @@
 package com.ruoyi.generator.mapper;
 
 import java.util.List;
+
 import com.ruoyi.generator.domain.GenTableColumn;
 
 /**
