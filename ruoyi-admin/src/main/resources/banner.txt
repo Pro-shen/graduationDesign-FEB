@@ -1,8 +1,10 @@
 Application Version: ${ruoyi.version}
 Spring Boot Version: ${spring-boot.version}
-                                  __    __
-  ______ ____       _____ _____ _/  |__/  |_
- /  ___// ___\     /     \\__  \\   __\   __\
- \___ \\  \___    |  Y Y  \/ __ \|  |  |  |
-/____  >\___  >   |__|_|  (____  /__|  |__|
-     \/     \/          \/     \/
+                                                        ,d      ,d
+                                                        88      88
+,adPPYba,  ,adPPYba,    88,dPYba,,adPYba,  ,adPPYYba, MM88MMM MM88MMM
+I8[    "" a8"     ""    88P'   "88"    "8a ""     `Y8   88      88
+ `"Y8ba,  8b            88      88      88 ,adPPPPP88   88      88
+aa    ]8I "8a,   ,aa    88      88      88 88,    ,88   88,     88,
+`"YbbdP"'  `"Ybbd8"'    88      88      88 `"8bbdP"Y8   "Y888   "Y888
+
