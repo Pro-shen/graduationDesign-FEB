@@ -284,7 +284,7 @@ export default {
       menuNodeAll: false,
       deptExpand: true,
       deptNodeAll: false,
-      // 日期范围
+      // 日期范围 
       dateRange: [],
       // 数据范围选项
       dataScopeOptions: [

@@ -53,11 +53,6 @@
       <el-table-column prop="dishName" label="菜品名称" width="200"></el-table-column>
       <el-table-column prop="dishStock" label="菜品存量" width="200"></el-table-column>
       <el-table-column prop="dishUsed" label="菜品销量" width="200"></el-table-column>
-      <el-table-column prop="status" label="状态" width="100">
-        <template slot-scope="scope">
-          <dict-tag :options="dict.type.sys_normal_disable" :value="scope.row.status"/>
-        </template>
-      </el-table-column>
       <el-table-column prop="createTime" label="创建时间" width="180"></el-table-column>
       <el-table-column prop="updateTime" label="更新时间" width="180"></el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -88,6 +83,50 @@
       :limit.sync="queryParams.pageSize"
       @pagination="getList"
     />
+
+    <!-- 添加或修改菜单配置对话框 -->
+    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
+      <el-form ref="form" :model="form" :rules="rules" label-width="100px">
+        <el-form-item label="菜单名称" prop="dishName">
+          <el-input v-model="form.dishName" placeholder="请输入菜单名称" />
+        </el-form-item>
+        <!-- <el-form-item prop="roleKey">
+          <span slot="label">
+            <el-tooltip content="控制器中定义的权限字符，如：@PreAuthorize(`@ss.hasRole('admin')`)" placement="top">
+              <i class="el-icon-question"></i>
+            </el-tooltip>
+            权限字符
+          </span>
+          <el-input v-model="form.roleKey" placeholder="请输入权限字符" />
+        </el-form-item> -->
+        <el-form-item label="角色顺序" prop="roleSort">
+          <el-input-number v-model="form.roleSort" controls-position="right" :min="0" />
+        </el-form-item>
+        <!-- <el-form-item label="菜单权限">
+          <el-checkbox v-model="menuExpand" @change="handleCheckedTreeExpand($event, 'menu')">展开/折叠</el-checkbox>
+          <el-checkbox v-model="menuNodeAll" @change="handleCheckedTreeNodeAll($event, 'menu')">全选/全不选</el-checkbox>
+          <el-checkbox v-model="form.menuCheckStrictly" @change="handleCheckedTreeConnect($event, 'menu')">父子联动</el-checkbox>
+          <el-tree
+            class="tree-border"
+            :data="menuOptions"
+            show-checkbox
+            ref="menu"
+            node-key="id"
+            :check-strictly="!form.menuCheckStrictly"
+            empty-text="加载中，请稍候"
+            :props="defaultProps"
+          ></el-tree>
+        </el-form-item>
+        <el-form-item label="备注">
+          <el-input v-model="form.remark" type="textarea" placeholder="请输入内容"></el-input>
+        </el-form-item> -->
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <!-- <el-button type="primary" @click="submitForm">确 定</el-button>
+        <el-button @click="cancel">取 消</el-button> -->
+      </div>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -101,13 +140,24 @@ export default {
       showSearch: true,
       refreshTable: true,
       isExpandAll: true,
+      open: false,
       tMenuList:[],
+      dateRange: [],
       queryParams: {
         tenantId: 1,
         pageNum: 1,
         pageSize: 10,
         dishName: ''
       },
+      form: {},
+      rules: {
+        roleName: [
+          { required: true, message: "角色名称不能为空", trigger: "blur" }
+        ],
+        roleSort: [
+          { required: true, message: "角色顺序不能为空", trigger: "blur" }
+        ]
+      }
     }
   },
   created() {
@@ -116,7 +166,7 @@ export default {
   methods:{
     getList(){
       this.loading = true;
-      listMenu(this.queryParams).then(response =>{
+      listMenu(this.addDateRange(this.queryParams, this.dateRange)).then(response =>{
           this.tMenuList = response.data
           this.loading = false;
       })

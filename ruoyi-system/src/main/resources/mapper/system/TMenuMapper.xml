@@ -43,6 +43,12 @@
         <if test="isState != null and isState != -1">
             and tm.is_state = #{isState}
         </if>
+        <if test="beginTime != null and beginTime != ''"><!-- 开始时间检索 -->
+            and date_format(tm.create_time,'%y%m%d') &gt;= date_format(#{beginTime},'%y%m%d')
+        </if>
+        <if test="endTime != null and endTime != ''"><!-- 结束时间检索 -->
+            and date_format(tm.create_time,'%y%m%d') &lt;= date_format(#{endTime},'%y%m%d')
+        </if>
         <!-- 数据范围过滤 -->
         ${params.dataScope}
     </select>

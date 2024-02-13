@@ -4,37 +4,22 @@ import com.ruoyi.common.core.domain.BaseEntity;
 
 import java.util.Date;
 
-public class TMenu extends BaseEntity {
+public class TFixPrice extends BaseEntity {
 
     /**
      * 自增id
      */
-    private Long id;
+    private Integer id;
 
     /**
-     * 价格id
+     * 盘子颜色
      */
-    private Long priceId;
+    private Integer plateColor;
 
     /**
-     * 菜品名称
+     * 盘子价格
      */
-    private String dishName;
-
-    /**
-     * 菜品存量
-     */
-    private Integer dishStock;
-
-    /**
-     * 菜品销量
-     */
-    private Integer dishUsed;
-
-    /**
-     * 菜品盈利
-     */
-    private double dishProfit;
+    private Double platePrice;
 
     /**
      * is_state
@@ -66,62 +51,28 @@ public class TMenu extends BaseEntity {
      */
     private Long tenantId;
 
-    /**
-     * 开始时间
-     */
-    private Date beginTime;
-
-    /**
-     * 结束时间
-     */
-    private Date endTime;
-
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public Long getPriceId() {
-        return priceId;
+    public Integer getPlateColor() {
+        return plateColor;
     }
 
-    public void setPriceId(Long priceId) {
-        this.priceId = priceId;
+    public void setPlateColor(Integer plateColor) {
+        this.plateColor = plateColor;
     }
 
-    public String getDishName() {
-        return dishName;
+    public Double getPlatePrice() {
+        return platePrice;
     }
 
-    public void setDishName(String dishName) {
-        this.dishName = dishName;
-    }
-
-    public Integer getDishStock() {
-        return dishStock;
-    }
-
-    public void setDishStock(Integer dishStock) {
-        this.dishStock = dishStock;
-    }
-
-    public Integer getDishUsed() {
-        return dishUsed;
-    }
-
-    public void setDishUsed(Integer dishUsed) {
-        this.dishUsed = dishUsed;
-    }
-
-    public double getDishProfit() {
-        return dishProfit;
-    }
-
-    public void setDishProfit(double dishProfit) {
-        this.dishProfit = dishProfit;
+    public void setPlatePrice(Double platePrice) {
+        this.platePrice = platePrice;
     }
 
     public Integer getIsState() {
@@ -175,21 +126,4 @@ public class TMenu extends BaseEntity {
     public void setTenantId(Long tenantId) {
         this.tenantId = tenantId;
     }
-
-    public Date getBeginTime() {
-        return beginTime;
-    }
-
-    public void setBeginTime(Date beginTime) {
-        this.beginTime = beginTime;
-    }
-
-    public Date getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
-    }
 }
-
