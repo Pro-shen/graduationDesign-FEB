@@ -6,7 +6,7 @@
 
     <resultMap id="TMenuResult" type="TMenu">
         <id property="id" column="id"/>
-        <id property="priceId" column="price_id"/>
+        <result property="priceId" column="price_id"/>
         <result property="dishName" column="dish_name"/>
         <result property="dishStock" column="dish_stock"/>
         <result property="dishUsed" column="dish_used"/>

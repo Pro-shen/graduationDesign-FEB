@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.TFixPriceMapper">
+
+    <resultMap id="TFixPriceResult" type="TFixPrice">
+        <id property="id" column="id"/>
+        <result property="plateColor" column="plate_color"/>
+        <result property="platePrice" column="plate_price"/>
+        <result property="isState" column="is_state"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createId" column="create_id"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="updateId" column="update_id"/>
+        <result property="tenantId" column="tenant_id"/>
+    </resultMap>
+
+    <sql id="selectTFixPriceVo">
+        select tfp.id,tfp.plate_color,tfp.plate_price,tfp.is_state,tfp.create_time,
+               tfp.create_id,tfp.update_time,tfp.update_id,tfp.tenant_id
+        from t_price tfp
+    </sql>
+
+    <select id="selectTFixPriceList" parameterType="TFixPrice" resultMap="TFixPriceResult">
+        <include refid="selectTFixPriceVo"></include>
+        where tfp.is_state = 1
+    </select>
+
+    <select id="selectTFixPriceListByPlateColor" parameterType="TFixPrice" resultMap="TFixPriceResult">
+        <include refid="selectTFixPriceVo"></include>
+        where tfp.plate_color = #{plateColor}
+        and tfp.is_state = 1
+    </select>
+
+    <select id="selectTFixPriceListById" parameterType="Long" resultMap="TFixPriceResult">
+        <include refid="selectTFixPriceVo"></include>
+        where tfp.id = #{id}
+        and tfp.is_state = 1
+    </select>
+
+    <insert id="insertTFixPrice" parameterType="TFixPrice" useGeneratedKeys="true" keyProperty="id">
+        insert into t_price(
+        <if test="id != null and id != 0">id,</if>
+        <if test="plateColor != null">plate_color,</if>
+        <if test="platePrice != null and platePrice != 0">plate_price,</if>
+        <if test="isState != null">is_state,</if>
+        create_time
+        )values(
+        <if test="id != null and id != ''">#{id},</if>
+        <if test="plateColor != null">#{plateColor},</if>
+        <if test="platePrice != null and platePrice != 0">#{platePrice},</if>
+        <if test="isState != null">#{isState},</if>
+        sysdate()
+        )
+    </insert>
+
+
+
+</mapper>

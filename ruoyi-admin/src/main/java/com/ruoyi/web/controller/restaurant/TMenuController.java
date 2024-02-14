@@ -17,7 +17,7 @@ import java.util.List;
 public class TMenuController extends BaseController {
 
     @Autowired
-    ITMenuService itMenuService;
+    private ITMenuService itMenuService;
 
     @PreAuthorize("@ss.hasPermi('restaurant:menu:list')")
     @GetMapping("/list")

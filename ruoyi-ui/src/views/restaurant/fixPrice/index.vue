@@ -21,9 +21,14 @@
     </el-row>
 
     <el-table v-if="refreshTable" v-loading="loading" :data="tPriceList" row-key="id" :default-expand-all="isExpandAll"
-      :tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
+      :tree-props="{ children: 'children', hasChildren: 'hasChildren' }" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column prop="plateColor" label="盘子颜色" width="200"></el-table-column>
+      <el-table-column label="盘子颜色" width="200" align="center">
+        <template slot-scope="scope">
+          <dict-tag :options="dict.type.t_plate_color" :value="scope.row.plateColor" />
+        </template>
+      </el-table-column>
+      <!-- <el-table-column prop="plateColor" label="盘子颜色" width="200"></el-table-column> -->
       <el-table-column prop="platePrice" label="盘子价格" width="200"></el-table-column>
       <el-table-column prop="createTime" label="创建时间" width="180"></el-table-column>
       <el-table-column prop="updateTime" label="更新时间" width="180"></el-table-column>
@@ -44,7 +49,7 @@
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="100px">
         <el-form-item label="盘子颜色">
-          <el-select v-model="form.plateColor" placeholder="请选择盘子颜色">
+          <el-select v-model="form.plateColor" placeholder="请选择盘子颜色" >
             <el-option v-for="dict in dict.type.t_plate_color" :key="dict.value" :label="dict.label"
               :value="dict.value"></el-option>
           </el-select>
@@ -62,12 +67,16 @@
 </template>
 
 <script>
-import { listPrice } from "@/api/restaurant/fixPrice"
+import { listPrice, addPrice, selectTFixPriceListById } from "@/api/restaurant/fixPrice"
 
 export default {
   dicts: ['t_plate_color'],
   data() {
     return {
+      single: true,
+      multiple: true,
+      ids: [],
+      add: true,
       loading: true,
       showSearch: true,
       refreshTable: true,
@@ -81,6 +90,19 @@ export default {
         dishName: ''
       },
       form: {},
+      rules: {
+        plateColor: [
+          { required: true, message: "盘子颜色不能为空", trigger: "blur" }
+        ],
+        platePrice: [
+          {
+            required: true,
+            message: "请输入正确的价格(整数)",
+            trigger: "blur",
+            pattern: /^-?[1-9]\d*$/,
+          }
+        ]
+      }
     }
   },
   created() {
@@ -90,17 +112,63 @@ export default {
     getList() {
       this.loading = true;
       listPrice(this.queryParams).then(response => {
-        this.tMenuList = response.data
+        this.tPriceList = response.rows
         this.loading = false;
       })
     },
-    submitForm(){
+    submitForm: function () {
+      this.form.isState = 1
       console.log(this.form)
-    },
-    cancel(){
+      this.$refs["form"].validate(valid => {
+        if (valid) {
+          if (this.add) {
+            addPrice(this.form).then(res => {
+              if (res.data == 0) {
+                this.$modal.msgError("添加失败")
+              } else if (res.data == 1) {
+                this.$modal.msgSuccess("添加成功")
+                this.getList();
+              } else if (res.data == 2) {
+                this.$modal.msgError("改颜色的盘子价格已存在")
+              }
+            })
+          } else {
 
+          }
+        }
+      })
+      this.open = false
     },
-
+    cancel() {
+      this.open = false
+    },
+    handleAdd() {
+      this.add = true
+      this.open = true
+      this.reset()
+    },
+    handleUpdate(row) {
+      this.add = false
+      this.reset();
+      const id = row.id || this.ids
+      selectTFixPriceListById(id).then(res=>{
+        this.form = res.data[0]
+      })
+      this.open = true
+    },
+    reset() {
+      this.form = {
+        plateColor: undefined,
+        platePrice: undefined,
+        isState: undefined
+      };
+      this.resetForm("form");
+    },
+    handleSelectionChange(selection) {
+      this.ids = selection.map(item => item.id)
+      this.single = selection.length != 1
+      this.multiple = !selection.length
+    },
   }
 }
 </script>

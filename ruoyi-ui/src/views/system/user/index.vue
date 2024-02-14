@@ -560,7 +560,7 @@ export default {
     },
     /** 新增按钮操作 */
     handleAdd() {
-      this.reset();
+      this.reset(); 
       getUser().then(response => {
         this.postOptions = response.posts;
         this.roleOptions = response.roles;
