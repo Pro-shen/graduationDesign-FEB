@@ -50,7 +50,15 @@ public class TFixPriceController extends BaseController {
     @PostMapping("/edit")
     public AjaxResult edit(@RequestBody TFixPrice tFixPrice){
         AjaxResult ajax = AjaxResult.success();
+        ajax.put("data",itFixPriceService.edit(tFixPrice));
+        return ajax;
+    }
 
-        return null;
+    @PreAuthorize("@ss.hasAnyPermi('restaurant:fixPrice:remove')")
+    @PostMapping("/remove")
+    public AjaxResult remove(@RequestBody TFixPrice tFixPrice){
+        AjaxResult ajax = AjaxResult.success();
+        ajax.put("data",itFixPriceService.remove(tFixPrice));
+        return ajax;
     }
 }

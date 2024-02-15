@@ -55,6 +55,18 @@
         )
     </insert>
 
+    <update id="edit" parameterType="TFixPrice">
+        update t_price
+        <set>
+            <if test="platePrice != null and platePrice != 0">plate_price = #{platePrice},</if>
+            <if test="plateColor != null">plate_color = #{plateColor},</if>
+            update_time = sysdate()
+        </set>
+        where id = #{id}
+    </update>
 
+    <delete id="remove" parameterType="TFixPrice">
+        delete from t_price where id = #{id}
+    </delete>
 
 </mapper>

@@ -12,15 +12,31 @@ export function listPrice(query) {
 
 export function addPrice(data) {
   return request({
-    url: '/restaurant/fixPrice/add',
-    method: 'post',
-    data: data
-  })
+    url: "/restaurant/fixPrice/add",
+    method: "post",
+    data: data,
+  });
 }
 
-export function selectTFixPriceListById(id){
+export function selectTFixPriceListById(id) {
   return request({
-    url: '/restaurant/fixPrice/selectTFixPriceListById/'+id,
-    method: 'get'
-  })
+    url: "/restaurant/fixPrice/selectTFixPriceListById/" + id,
+    method: "get",
+  });
+}
+
+export function edit(data) {
+  return request({
+    url: "/restaurant/fixPrice/edit",
+    method: "post",
+    data: data,
+  });
+}
+
+export function remove(data) {
+  return request({
+    url: "/restaurant/fixPrice/remove",
+    method: "post",
+    data: data,
+  });
 }

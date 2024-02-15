@@ -48,10 +48,10 @@
     <!-- 添加或修改菜单配置对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="100px">
-        <el-form-item label="盘子颜色">
-          <el-select v-model="form.plateColor" placeholder="请选择盘子颜色" >
+        <el-form-item label="盘子颜色" prop="plateColor">
+          <el-select v-model="form.plateColor" placeholder="请选择盘子颜色">
             <el-option v-for="dict in dict.type.t_plate_color" :key="dict.value" :label="dict.label"
-              :value="dict.value"></el-option>
+              :value="Number(dict.value)"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="盘子价格" prop="platePrice">
@@ -67,7 +67,7 @@
 </template>
 
 <script>
-import { listPrice, addPrice, selectTFixPriceListById } from "@/api/restaurant/fixPrice"
+import { listPrice, addPrice, selectTFixPriceListById, edit, remove } from "@/api/restaurant/fixPrice"
 
 export default {
   dicts: ['t_plate_color'],
@@ -118,7 +118,6 @@ export default {
     },
     submitForm: function () {
       this.form.isState = 1
-      console.log(this.form)
       this.$refs["form"].validate(valid => {
         if (valid) {
           if (this.add) {
@@ -133,7 +132,17 @@ export default {
               }
             })
           } else {
-
+            edit(this.form).then(res => {
+              console.log(res.data)
+              if (res.data == 0) {
+                this.$modal.msgError("修改失败")
+              } else if (res.data == 1) {
+                this.$modal.msgSuccess("修改成功")
+                this.getList();
+              } else if (res.data == 2) {
+                this.$modal.msgError("已存在该颜色的盘子")
+              }
+            })
           }
         }
       })
@@ -151,7 +160,7 @@ export default {
       this.add = false
       this.reset();
       const id = row.id || this.ids
-      selectTFixPriceListById(id).then(res=>{
+      selectTFixPriceListById(id).then(res => {
         this.form = res.data[0]
       })
       this.open = true
@@ -169,6 +178,23 @@ export default {
       this.single = selection.length != 1
       this.multiple = !selection.length
     },
+    handleDelete(row) {
+      const ids = row.plateColor || this.ids;
+      var str = ""
+      for (var i = 0; i < ids.length; i++) {
+        if(i == ids.length - 1){
+          str = str + this.dict.type.t_plate_color[i].label 
+        }else{
+          str = str + this.dict.type.t_plate_color[i].label + ","
+        }
+      }
+      if(str == ""){
+        str = this.dict.type.t_plate_color[ids].label
+      }
+      this.$modal.confirm('是否确认删除盘子颜色为"' + str + '"的数据项？').then(function () {
+        // return delRole(roleIds);
+      })
+    }
   }
 }
 </script>
