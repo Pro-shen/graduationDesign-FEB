@@ -12,9 +12,9 @@ public class TMenu extends BaseEntity {
     private Long id;
 
     /**
-     * 价格id
+     * 盘子颜色
      */
-    private Long priceId;
+    private Integer plateColor;
 
     /**
      * 菜品名称
@@ -84,12 +84,12 @@ public class TMenu extends BaseEntity {
         this.id = id;
     }
 
-    public Long getPriceId() {
-        return priceId;
+    public Integer getPlateColor() {
+        return plateColor;
     }
 
-    public void setPriceId(Long priceId) {
-        this.priceId = priceId;
+    public void setPlateColor(Integer plateColor) {
+        this.plateColor = plateColor;
     }
 
     public String getDishName() {

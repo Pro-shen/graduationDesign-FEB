@@ -31,12 +31,11 @@
 
 ### t_menu(菜单表)
 
->#id，价格id，菜品名称，菜品存量，菜品销量，菜品盈利，is_state，创建时间，创建人id，更新时间，更新人id，租户id
+>#id，盘子颜色，菜品名称，菜品存量，菜品销量，菜品盈利，is_state，创建时间，创建人id，更新时间，更新人id，租户id
 >
->| 表单 | id     | price_id | dish_name | dish_stock | dish_used | dish_profit | is_state | create_time | create_id | update_time | update_id | tenant_id |
->| ---- | ------ | -------- | --------- | ---------- | --------- | ----------- | -------- | ----------- | --------- | ----------- | --------- | --------- |
->| 参数 | bigint | Bigint   | Varchar30 | Int        | Int       | double      | Int      | Date        | Bigint    | Date        | Bigint    | Bigint    |
->
+>| 表单 | id     | plateColor | dish_name | dish_stock | dish_used | dish_profit | is_state | create_time | create_id | update_time | update_id | tenant_id |
+>| ---- | ------ | ---------- | --------- | ---------- | --------- | ----------- | -------- | ----------- | --------- | ----------- | --------- | --------- |
+>| 参数 | bigint | Int        | Varchar30 | Int        | Int       | double      | Int      | Date        | Bigint    | Date        | Bigint    | Bigint    |
 
 
 
@@ -46,7 +45,7 @@
 >
 >| 表单 | id     | plate_color | plate_price | is_state | create_time | create_id | update_time | update_id | tenant_id |
 >| ---- | ------ | ----------- | ----------- | -------- | ----------- | --------- | ----------- | --------- | --------- |
->| 参数 | Bigint | Varchar20   | Double      | Int      | Date        | Bigint    | Date        | Bigint    | Bigint    |
+>| 参数 | Bigint | Int         | Double      | Int      | Date        | Bigint    | Date        | Bigint    | Bigint    |
 
 
 

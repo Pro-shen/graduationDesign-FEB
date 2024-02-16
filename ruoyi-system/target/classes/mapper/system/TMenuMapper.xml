@@ -6,7 +6,6 @@
 
     <resultMap id="TMenuResult" type="TMenu">
         <id property="id" column="id"/>
-        <result property="priceId" column="price_id"/>
         <result property="dishName" column="dish_name"/>
         <result property="dishStock" column="dish_stock"/>
         <result property="dishUsed" column="dish_used"/>
@@ -17,10 +16,11 @@
         <result property="updateTime" column="update_time"/>
         <result property="updateId" column="update_id"/>
         <result property="tenantId" column="tenant_id"/>
+        <result property="plateColor" column="plate_color"/>
     </resultMap>
 
     <sql id="selectTmenuVo">
-        select tm.id,tm.price_id,tm.dish_name,tm.dish_stock,tm.dish_used,tm.dish_profit,tm.is_state,
+        select tm.id,tm.plate_color,tm.dish_name,tm.dish_stock,tm.dish_used,tm.dish_profit,tm.is_state,
                tm.create_time,tm.create_id,tm.update_time,tm.update_id,tm.tenant_id
         from t_menu tm
     </sql>
@@ -28,8 +28,8 @@
     <select id="selectTMenuList" parameterType="TMenu" resultMap="TMenuResult">
         <include refid="selectTmenuVo"></include>
         where tm.tenant_id = #{tenantId}
-        <if test="priceId != null and priceId != 0">
-            and tm.price_id = #{priceId}
+        <if test="plateColor != null and plateColor != 0">
+            and tm.plate_color = #{plateColor}
         </if>
         <if test="dishName != null and dishName != ''">
             and tm.dish_name = #{dishName}
