@@ -5,6 +5,8 @@ import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
+import com.ruoyi.common.utils.poi.ExcelUtil;
+import com.ruoyi.system.domain.SysLogininfor;
 import com.ruoyi.system.domain.TFixPrice;
 import com.ruoyi.system.service.ITFixPriceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @RestController
@@ -60,5 +63,15 @@ public class TFixPriceController extends BaseController {
         AjaxResult ajax = AjaxResult.success();
         ajax.put("data",itFixPriceService.remove(tFixPrice));
         return ajax;
+    }
+
+    @Log(title = "定价表单", businessType = BusinessType.EXPORT)
+    @PreAuthorize("@ss.hasPermi('restaurant:fixPrice:export')")
+    @PostMapping("/export")
+    public void export(HttpServletResponse response, TFixPrice tFixPrice)
+    {
+        List<TFixPrice> list = itFixPriceService.list(tFixPrice);
+        ExcelUtil<TFixPrice> util = new ExcelUtil<TFixPrice>(TFixPrice.class);
+        util.exportExcel(response, list, "定价表单");
     }
 }

@@ -66,7 +66,11 @@
     </update>
 
     <delete id="remove" parameterType="TFixPrice">
-        delete from t_price where id = #{id}
+        delete from t_price where plate_color = #{id}
+    </delete>
+
+    <delete id="removeByIds" parameterType="int">
+        delete from t_price where plate_color = #{id}
     </delete>
 
 </mapper>

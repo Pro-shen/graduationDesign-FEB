@@ -1,6 +1,7 @@
 package com.ruoyi.system.mapper;
 
 import com.ruoyi.system.domain.TFixPrice;
+import io.lettuce.core.dynamic.annotation.Param;
 
 import java.util.List;
 
@@ -17,5 +18,7 @@ public interface TFixPriceMapper {
     public int edit(TFixPrice tFixPrice);
 
     public int remove(TFixPrice tFixPrice);
+
+    public int removeByIds(@Param("id")Integer id);
 
 }

@@ -15,7 +15,7 @@ public interface ITFixPriceService {
 
     public int edit(TFixPrice tFixPrice);
 
-    public int remove(TFixPrice tFixPrice);
+    public TFixPrice remove(TFixPrice tFixPrice);
 
 
 }

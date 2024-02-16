@@ -17,7 +17,7 @@
         <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport"
           v-hasPermi="['restaurant:menu:export']">导出</el-button>
       </el-col>
-      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+      <!-- <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar> -->
     </el-row>
 
     <el-table v-if="refreshTable" v-loading="loading" :data="tPriceList" row-key="id" :default-expand-all="isExpandAll"
@@ -76,6 +76,7 @@ export default {
       single: true,
       multiple: true,
       ids: [],
+      idsplateColor:[],
       add: true,
       loading: true,
       showSearch: true,
@@ -144,6 +145,8 @@ export default {
               }
             })
           }
+        }else{
+          this.$modal.msgError("请填写正确的信息")
         }
       })
       this.open = false
@@ -175,25 +178,59 @@ export default {
     },
     handleSelectionChange(selection) {
       this.ids = selection.map(item => item.id)
+      this.idsplateColor = selection.map(item => item.plateColor)
       this.single = selection.length != 1
       this.multiple = !selection.length
     },
     handleDelete(row) {
-      const ids = row.plateColor || this.ids;
+      var that = this
+      const ids = row.plateColor || this.idsplateColor;
+      if(row.plateColor == 0){
+        ids.push(0)
+      }
       var str = ""
+      var listOrInt = 1
       for (var i = 0; i < ids.length; i++) {
-        if(i == ids.length - 1){
-          str = str + this.dict.type.t_plate_color[i].label 
-        }else{
-          str = str + this.dict.type.t_plate_color[i].label + ","
+        if (i == ids.length - 1) {
+          str = str + this.dict.type.t_plate_color[ids[i]].label
+        } else {
+          str = str + this.dict.type.t_plate_color[ids[i]].label + ","
         }
       }
-      if(str == ""){
+      if (str == "") {
+        listOrInt = 0
         str = this.dict.type.t_plate_color[ids].label
       }
       this.$modal.confirm('是否确认删除盘子颜色为"' + str + '"的数据项？').then(function () {
         // return delRole(roleIds);
+        var data = {}
+        if (listOrInt == 0) {
+          data = {
+            id: ids
+          }
+        } else {
+          data = {
+            ids: ids
+          }
+        }
+        remove(data).then(res => {
+          if(res.data.ids.length == 0){
+            that.$modal.msgSuccess("删除成功")
+          }else{
+            var resStr = ""
+            for(i=0;i<res.data.ids.length;i++){
+              resStr = resStr + this.dict.type.t_plate_color[res.data.ids[i]]+",";
+            }
+            that.$modal.msgError("删除"+resStr+"失败")
+          }
+          that.getList()
+        })
       })
+    },
+    handleExport() {
+      this.download('/restaurant/fixPrice/export', {
+        ...this.queryParams
+      }, `Price_${new Date().getTime()}.xlsx`)
     }
   }
 }

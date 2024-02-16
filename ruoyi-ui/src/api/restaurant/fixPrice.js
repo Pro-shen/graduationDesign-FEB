@@ -40,3 +40,4 @@ export function remove(data) {
     data: data,
   });
 }
+
