@@ -42,8 +42,13 @@
       </el-table-column>
     </el-table>
 
-    <!-- <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
-      @pagination="getList" /> -->
+    <pagination
+      v-show="total>0"
+      :total="total"
+      :page.sync="queryParams.pageNum"
+      :limit.sync="queryParams.pageSize"
+      @pagination="getList"
+    />
 
     <!-- 添加或修改菜单配置对话框 -->
     <el-dialog title="定价管理" :visible.sync="open" width="500px" append-to-body>
@@ -76,7 +81,8 @@ export default {
       single: true,
       multiple: true,
       ids: [],
-      idsplateColor:[],
+      total: 0,
+      idsplateColor: [],
       add: true,
       loading: true,
       showSearch: true,
@@ -114,7 +120,8 @@ export default {
       this.loading = true;
       listPrice(this.queryParams).then(response => {
         this.tPriceList = response.rows
-        this.loading = false;
+        this.loading = false
+        this.total = response.total
       })
     },
     submitForm: function () {
@@ -145,7 +152,7 @@ export default {
               }
             })
           }
-        }else{
+        } else {
           this.$modal.msgError("请填写正确的信息")
         }
       })
@@ -161,7 +168,7 @@ export default {
     },
     handleUpdate(row) {
       this.add = false
-      this.reset();
+      this.reset()
       const id = row.id || this.ids
       selectTFixPriceListById(id).then(res => {
         this.form = res.data[0]
@@ -185,7 +192,7 @@ export default {
     handleDelete(row) {
       var that = this
       const ids = row.plateColor || this.idsplateColor;
-      if(row.plateColor == 0){
+      if (row.plateColor == 0) {
         ids.push(0)
       }
       var str = ""
@@ -214,14 +221,14 @@ export default {
           }
         }
         remove(data).then(res => {
-          if(res.data.ids.length == 0){
+          if (res.data.ids.length == 0) {
             that.$modal.msgSuccess("删除成功")
-          }else{
+          } else {
             var resStr = ""
-            for(i=0;i<res.data.ids.length;i++){
-              resStr = resStr + this.dict.type.t_plate_color[res.data.ids[i]]+",";
+            for (i = 0; i < res.data.ids.length; i++) {
+              resStr = resStr + this.dict.type.t_plate_color[res.data.ids[i]] + ",";
             }
-            that.$modal.msgError("删除"+resStr+"失败")
+            that.$modal.msgError("删除" + resStr + "失败")
           }
           that.getList()
         })
@@ -230,7 +237,7 @@ export default {
     handleExport() {
       this.download('/restaurant/fixPrice/export', {
         ...this.queryParams
-      }, `Price_${new Date().getTime()}.xlsx`)
+      }, `定价_${new Date().getTime()}.xlsx`)
     }
   }
 }

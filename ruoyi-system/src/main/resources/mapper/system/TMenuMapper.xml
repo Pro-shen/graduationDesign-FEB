@@ -27,30 +27,65 @@
 
     <select id="selectTMenuList" parameterType="TMenu" resultMap="TMenuResult">
         <include refid="selectTmenuVo"></include>
-        where tm.tenant_id = #{tenantId}
-        <if test="plateColor != null and plateColor != 0">
-            and tm.plate_color = #{plateColor}
-        </if>
-        <if test="dishName != null and dishName != ''">
-            and tm.dish_name = #{dishName}
-        </if>
-        <if test="dishStock != null and dishStock != 0">
-            and tm.dish_stock = #{dishStock}
-        </if>
-        <if test="dishUsed != null and dishUsed != 0">
-            and tm.dish_used = #{dishUsed}
-        </if>
-        <if test="isState != null and isState != -1">
-            and tm.is_state = #{isState}
-        </if>
-        <if test="beginTime != null and beginTime != ''"><!-- 开始时间检索 -->
-            and date_format(tm.create_time,'%y%m%d') &gt;= date_format(#{beginTime},'%y%m%d')
-        </if>
-        <if test="endTime != null and endTime != ''"><!-- 结束时间检索 -->
-            and date_format(tm.create_time,'%y%m%d') &lt;= date_format(#{endTime},'%y%m%d')
-        </if>
-        <!-- 数据范围过滤 -->
-        ${params.dataScope}
+        <where>
+            tm.is_state = 1
+            <if test="dishName!=null and dishName != ''">
+                AND tm.dish_name like concat('%', #{dishName}, '%')
+            </if>
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                AND tm.create_time &gt;= #{params.beginTime}
+            </if>
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                AND tm.create_time &lt;= #{params.endTime}
+            </if>
+        </where>
+
+
     </select>
+
+    <select id="selectTMenuListById" parameterType="TMenu" resultMap="TMenuResult">
+        <include refid="selectTmenuVo"></include>
+        where tm.id = #{id}
+        and tm.is_state = 1
+    </select>
+
+    <insert id="add" parameterType="TMenu" useGeneratedKeys="true" keyProperty="id">
+        insert into t_menu(
+        <if test="id != null and id != 0">id,</if>
+        <if test="dishStock != null">dish_stock,</if>
+        <if test="plateColor != null">plate_color,</if>
+        <if test="dishName != null and dishName != ''">dish_name,</if>
+        <if test="isState != null">is_state,</if>
+        <if test="dishUsed != null">dish_used,</if>
+        create_time
+        )values(
+        <if test="id != null and id != ''">#{id},</if>
+        <if test="dishStock != null">#{dishStock},</if>
+        <if test="plateColor != null">#{plateColor},</if>
+        <if test="dishName != null and dishName != ''">#{dishName},</if>
+        <if test="isState != null">#{isState},</if>
+        <if test="dishUsed != null">#{dishUsed},</if>
+        sysdate()
+        )
+    </insert>
+
+    <update id="edit" parameterType="TMenu">
+        update t_menu
+        <set>
+            <if test="dishName !=null and dishName !=''">dish_name = #{dishName},</if>
+            <if test="plateColor != null">plate_color = #{plateColor},</if>
+            <if test="dishStock != null">dish_stock = #{dishStock},</if>
+            update_time = sysdate()
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="remove" parameterType="TMenu">
+        delete from t_menu where id = #{id}
+    </delete>
+
+    <delete id="removeByIds" parameterType="Long">
+        delete from t_menu where id = #{id}
+    </delete>
 
 </mapper>

@@ -1,8 +1,10 @@
 package com.ruoyi.system.domain;
 
+import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
 import java.util.Date;
+import java.util.List;
 
 public class TMenu extends BaseEntity {
 
@@ -14,26 +16,31 @@ public class TMenu extends BaseEntity {
     /**
      * 盘子颜色
      */
+    @Excel(name = "盘子颜色", readConverterExp = "0=红色,1=蓝色,2=绿色,3=紫色,4=黄色")
     private Integer plateColor;
 
     /**
      * 菜品名称
      */
+    @Excel(name = "菜品名称")
     private String dishName;
 
     /**
      * 菜品存量
      */
+    @Excel(name = "菜品存量")
     private Integer dishStock;
 
     /**
      * 菜品销量
      */
+    @Excel(name = "菜品销量")
     private Integer dishUsed;
 
     /**
      * 菜品盈利
      */
+    @Excel(name = "菜品盈利")
     private double dishProfit;
 
     /**
@@ -44,6 +51,7 @@ public class TMenu extends BaseEntity {
     /**
      * 创建时间
      */
+    @Excel(name = "创建时间")
     private Date createTime;
 
     /**
@@ -54,6 +62,7 @@ public class TMenu extends BaseEntity {
     /**
      * 更新时间
      */
+    @Excel(name = "更新时间")
     private Date updateTime;
 
     /**
@@ -75,6 +84,11 @@ public class TMenu extends BaseEntity {
      * 结束时间
      */
     private Date endTime;
+
+    /**
+     * ids
+     */
+    private List<Long> ids;
 
     public Long getId() {
         return id;
@@ -190,6 +204,14 @@ public class TMenu extends BaseEntity {
 
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
+    }
+
+    public List<Long> getIds() {
+        return ids;
+    }
+
+    public void setIds(List<Long> ids) {
+        this.ids = ids;
     }
 }
 

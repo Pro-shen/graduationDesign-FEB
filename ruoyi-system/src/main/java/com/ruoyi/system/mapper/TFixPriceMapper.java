@@ -19,6 +19,6 @@ public interface TFixPriceMapper {
 
     public int remove(TFixPrice tFixPrice);
 
-    public int removeByIds(@Param("id")Integer id);
+    public int removeByIds(@Param("id")Long id);
 
 }

@@ -69,7 +69,7 @@
         delete from t_price where plate_color = #{id}
     </delete>
 
-    <delete id="removeByIds" parameterType="int">
+    <delete id="removeByIds" parameterType="Long">
         delete from t_price where plate_color = #{id}
     </delete>
 

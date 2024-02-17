@@ -52,7 +52,7 @@ public class ITFixPriceServiceImpl implements ITFixPriceService {
 
     @Override
     public TFixPrice remove(TFixPrice tFixPrice) {
-        List<Integer> resByIdsList = new ArrayList<>();
+        List<Long> resByIdsList = new ArrayList<>();
         TFixPrice tFixPrice1 = new TFixPrice();
         if(tFixPrice.getId()!=null){
             int res = tFixPriceMapper.remove(tFixPrice);
@@ -75,7 +75,8 @@ public class ITFixPriceServiceImpl implements ITFixPriceService {
             tFixPrice1.setIds(resByIdsList);
             return tFixPrice1;
         }else{
-            resByIdsList.add(-1);
+            resByIdsList.add(-1L);
+            tFixPrice1.setIds(resByIdsList);
             return tFixPrice1;
         }
     }

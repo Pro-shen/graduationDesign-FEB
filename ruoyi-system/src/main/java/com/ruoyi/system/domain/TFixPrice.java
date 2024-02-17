@@ -12,7 +12,7 @@ public class TFixPrice extends BaseEntity {
     /**
      * 自增id
      */
-    private Integer id;
+    private Long id;
 
     /**
      * 盘子颜色
@@ -63,13 +63,13 @@ public class TFixPrice extends BaseEntity {
     /**
      * ids
      */
-    private List<Integer> ids;
+    private List<Long> ids;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -141,11 +141,11 @@ public class TFixPrice extends BaseEntity {
         this.tenantId = tenantId;
     }
 
-    public List<Integer> getIds() {
+    public List<Long> getIds() {
         return ids;
     }
 
-    public void setIds(List<Integer> ids) {
+    public void setIds(List<Long> ids) {
         this.ids = ids;
     }
 }
