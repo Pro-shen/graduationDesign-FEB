@@ -61,7 +61,7 @@
     </el-form>
     <!--  底部  -->
     <div class="el-register-footer">
-      <span>made by shencheng matt</span>
+      <span>made by 沈城 matt</span>
     </div>
   </div>
 </template>
