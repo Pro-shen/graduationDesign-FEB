@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.TCheckInMapper">
+
+    <resultMap id="TAttendancesheetResult" type="TAttendancesheet">
+        <id property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="attendanceTime" column="attendance_time"/>
+        <result property="attendanceType" column="attendance_type"/>
+        <result property="isState" column="is_state"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createId" column="create_id"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="updateId" column="update_id"/>
+        <result property="tenantId" column="tenant_id"/>
+    </resultMap>
+
+    <sql id="selectTAttendancesheetVo">
+        select ta.id,ta.user_id,ta.attendance_time,ta.attendance_type,ta.is_state,ta.create_time,
+               ta.create_id,ta.update_time,ta.update_id,ta.tenant_id
+        from t_attendancesheet ta
+    </sql>
+
+    <select id="selectTAttendancesheet" parameterType="TAttendancesheet" resultMap="TAttendancesheetResult">
+        <include refid="selectTAttendancesheetVo"></include>
+        <where>
+            ta.is_state = 1
+            <if test="userId != null and userId != 0">
+                AND ta.user_id = #{userId}
+            </if>
+            <if test="attendanceType != null">
+                AND ta.attendance_type = #{attendanceType}
+            </if>
+            <if test="createTime != null">
+                AND ta.create_time = sysdate()
+            </if>
+        </where>
+    </select>
+
+    <insert id="add" parameterType="TAttendancesheet" useGeneratedKeys="true" keyProperty="id">
+        insert into t_attendancesheet(
+        <if test="id != null and id != 0">id,</if>
+        <if test="userId != null and userId != 0">user_id,</if>
+        <if test="attendanceTime != null">attendance_time,</if>
+        <if test="attendanceType != null">attendance_type,</if>
+        <if test="isState != null">is_state,</if>
+        <if test="updateTime != null">update_time,</if>
+        <if test="tenantId != null and tenantId != 0">tenant_id,</if>
+        create_time
+        )values (
+        <if test="id != null and id != 0">#{id},</if>
+        <if test="userId != null and userId != 0">#{userId},</if>
+        <if test="attendanceTime != null">#{attendanceTime},</if>
+        <if test="attendanceType != null">#{attendanceType},</if>
+        <if test="isState != null">#{isState},</if>
+        <if test="updateTime != null">#{updateTime},</if>
+        <if test="tenantId != null and tenantId != 0">#{tenantId},</if>
+        sysdate()
+        )
+    </insert>
+
+</mapper>
