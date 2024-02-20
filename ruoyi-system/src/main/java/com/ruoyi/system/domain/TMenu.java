@@ -16,7 +16,7 @@ public class TMenu extends BaseEntity {
     /**
      * 盘子颜色
      */
-    @Excel(name = "盘子颜色", readConverterExp = "0=红色,1=蓝色,2=绿色,3=紫色,4=黄色")
+    @Excel(name = "盘子颜色", readConverterExp = "0=红色,1=蓝色,2=绿色,3=黄色")
     private Integer plateColor;
 
     /**
