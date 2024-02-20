@@ -1,5 +1,6 @@
 package com.ruoyi.system.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ruoyi.common.core.domain.BaseEntity;
 
 import java.util.Date;
@@ -39,6 +40,7 @@ public class TAttendancesheet extends BaseEntity {
     /**
      * 创建时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date createTime;
 
     /**
