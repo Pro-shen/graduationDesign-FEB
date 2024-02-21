@@ -39,6 +39,22 @@
         </where>
     </select>
 
+    <select id="list" parameterType="TAttendancesheet" resultMap="TAttendancesheetResult">
+        <include refid="selectTAttendancesheetVo"></include>
+        <where>
+            ta.is_state = 1
+            <if test="userId != null and userId != 0">
+                AND ta.user_id = #{userId}
+            </if>
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                AND ta.create_time &gt;= #{params.beginTime}
+            </if>
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                AND ta.create_time &lt;= #{params.endTime}
+            </if>
+        </where>
+    </select>
+
     <insert id="add" parameterType="TAttendancesheet" useGeneratedKeys="true" keyProperty="id">
         insert into t_attendancesheet(
         <if test="id != null and id != 0">id,</if>

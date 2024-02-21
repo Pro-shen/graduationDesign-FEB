@@ -4,33 +4,28 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ruoyi.common.core.domain.BaseEntity;
 
 import java.util.Date;
+import java.util.List;
 
-public class TAttendancesheet extends BaseEntity {
-
+public class TPerformance extends BaseEntity {
     /**
      * 自增id
      */
     private Long id;
 
     /**
-     * 用户id
+     * 档位名称
      */
-    private Long userId;
+    private String performanceName;
 
     /**
-     * 用户名字
+     * 绩效档位
      */
-    private String userName;
+    private Integer performancePosition;
 
     /**
-     * 签到时间
+     * 绩效价格
      */
-    private Date attendanceTime;
-
-    /**
-     * 签到类型
-     */
-    private Integer attendanceType;
+    private Double performancePay;
 
     /**
      * is_state
@@ -63,7 +58,10 @@ public class TAttendancesheet extends BaseEntity {
      */
     private Long tenantId;
 
-
+    /**
+     * ids
+     */
+    private List<Long> ids;
 
     public Long getId() {
         return id;
@@ -73,36 +71,28 @@ public class TAttendancesheet extends BaseEntity {
         this.id = id;
     }
 
-    public Long getUserId() {
-        return userId;
+    public String getPerformanceName() {
+        return performanceName;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setPerformanceName(String performanceName) {
+        this.performanceName = performanceName;
     }
 
-    public String getUserName() {
-        return userName;
+    public Integer getPerformancePosition() {
+        return performancePosition;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setPerformancePosition(Integer performancePosition) {
+        this.performancePosition = performancePosition;
     }
 
-    public Date getAttendanceTime() {
-        return attendanceTime;
+    public Double getPerformancePay() {
+        return performancePay;
     }
 
-    public void setAttendanceTime(Date attendanceTime) {
-        this.attendanceTime = attendanceTime;
-    }
-
-    public Integer getAttendanceType() {
-        return attendanceType;
-    }
-
-    public void setAttendanceType(Integer attendanceType) {
-        this.attendanceType = attendanceType;
+    public void setPerformancePay(Double performancePay) {
+        this.performancePay = performancePay;
     }
 
     public Integer getIsState() {
@@ -155,5 +145,13 @@ public class TAttendancesheet extends BaseEntity {
 
     public void setTenantId(Long tenantId) {
         this.tenantId = tenantId;
+    }
+
+    public List<Long> getIds() {
+        return ids;
+    }
+
+    public void setIds(List<Long> ids) {
+        this.ids = ids;
     }
 }

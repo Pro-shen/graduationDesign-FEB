@@ -1,20 +1,62 @@
 <template>
   <div class="container">
-    <el-button class="checkin" type="primary" @click="handleCheckIn">{{ checkInTitile }}
-    </el-button>
+    <div style="width: 50%;padding: 20px;display: flex;flex-direction: column;">
+      <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch">
+        <el-form-item label="创建时间">
+          <el-date-picker v-model="dateRange" style="width: 240px" value-format="yyyy-MM-dd" type="daterange"
+            range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
+          <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+        </el-form-item>
+      </el-form>
+      <el-table v-if="refreshTable" v-loading="loading" :data="tCheckInList" row-key="id"
+        :default-expand-all="isExpandAll" :tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
+        <el-table-column prop="userName" label="打卡人" width="180" align="center"></el-table-column>
+        <el-table-column prop="createTime" label="打卡时间" width="180" align="center"></el-table-column>
+        <el-table-column label="打卡类型" class-name="small-padding fixed-width" align="center">
+          <template slot-scope="scope">
+            <dict-tag :options="dict.type.t_attendance_type" :value="scope.row.attendanceType
+              " />
+          </template>
+        </el-table-column>
+      </el-table>
+      <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
+        @pagination="getList" />
+    </div>
+    <div style="width: 50%;display: flex;align-items: center;justify-content: center;">
+      <el-button class="checkin" type="primary" @click="handleCheckIn">{{ checkInTitile }}
+      </el-button>
+    </div>
   </div>
 </template>
   
 <script>
 import Cookies from "js-cookie";
-import { add } from "@/api/restaurant/checkIn"
+import { add, list } from "@/api/restaurant/checkIn"
 var time
 export default {
+  dicts: ['t_attendance_type'],
   data() {
     return {
+      showSearch: true,
       form: {},
       checkInTitile: "",
-      checkInTasks: null
+      checkInTasks: null,
+      tCheckInList: [],
+      dateRange: [],
+      loading: false,
+      refreshTable: true,
+      isExpandAll: true,
+      total: 0,
+      queryParams: {
+        createTime: new Date().getHours(),
+        userName: Cookies.get("username"),
+        tenantId: 1,
+        pageNum: 1,
+        pageSize: 10,
+      },
     }
   },
   mounted() {
@@ -30,12 +72,24 @@ export default {
       this.getcheckInTasks()
     }, 5 * 1000)
   },
+  created() {
+    this.getList();
+  },
   beforeRouteLeave(to, from, next) {
     clearInterval(this.checkInTasks)
     this.checkInTasks = null
     next()
   },
   methods: {
+    getList() {
+      this.loading = true;
+      list(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
+        console.log(response)
+        this.tCheckInList = response.rows
+        this.loading = false
+        this.total = response.total
+      })
+    },
     getcheckInTasks() {
       time = new Date().getHours()
       if (time >= 8 && time <= 10) {
@@ -60,20 +114,30 @@ export default {
         this.$modal.msgError("未到打卡时间")
       } else {
         this.form.userName = Cookies.get("username"),
-        this.form.attendanceType = timeState,
-        this.form.isState = 1
+          this.form.attendanceType = timeState,
+          this.form.isState = 1
         add(this.form).then(res => {
-          if(res.data == -1){
+          if (res.data == -1) {
             this.$modal.msgError("请勿重复打卡")
-          }else if(res.data == 0){
+          } else if (res.data == 0) {
             this.$modal.msgSuccess("打卡失败，请重试")
-          }else if(res.data == 1){
+          } else if (res.data == 1) {
             this.$modal.msgSuccess("打卡成功")
           }
         })
-        
+
       }
 
+    },
+    handleQuery() {
+      this.queryParams.pageNum = 1;
+      this.getList();
+    },
+    resetQuery() {
+      this.dateRange = [];
+      this.resetForm("queryForm");
+      this.queryParams.pageNum = 1;
+      this.$refs.tables.sort(this.defaultSort.prop, this.defaultSort.order)
     }
   }
 }
@@ -84,8 +148,7 @@ export default {
   width: 100%;
   height: 80vh;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: row;
 }
 
 .checkin {

@@ -134,6 +134,7 @@ export default {
     getList() {
       this.loading = true;
       listMenu(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
+        console.log(response)
         this.tMenuList = response.rows
         this.loading = false
         this.total = response.total

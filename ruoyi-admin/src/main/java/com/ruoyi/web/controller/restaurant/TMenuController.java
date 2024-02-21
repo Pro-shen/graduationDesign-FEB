@@ -30,7 +30,6 @@ public class TMenuController extends BaseController {
     public TableDataInfo list(TMenu tMenu){
         startPage();
         List<TMenu> tMenus = itMenuService.selectTMenuList(tMenu);
-
         return getDataTable(tMenus);
     }
 

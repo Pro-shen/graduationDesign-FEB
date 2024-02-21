@@ -79,6 +79,16 @@
 
 
 
+### t_performance(绩效阶梯表)
+
+>#id，档位名称，绩效档位，绩效价格，is_state，创建时间，创建人id，更新时间，更新人id，租户id
+>
+>| 表单 | id     | performance_name | performance_position | performance_pay | is_state | create_time | create_id | update_time | update_id | tenant_id |
+>| ---- | ------ | ---------------- | -------------------- | --------------- | -------- | ----------- | --------- | ----------- | --------- | --------- |
+>| 参数 | bigint | Varchar 50       | Int                  | Double          | Int      | Date        | Bigint    | Date        | Bigint    | Bigint    |
+
+
+
 ## 深度学习部分
 
 >深度学习部分使用yolov5开源项目，以yolov5项目为基础，添加了flask模块负责与外网通讯。

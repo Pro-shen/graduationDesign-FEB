@@ -9,6 +9,8 @@ import com.ruoyi.system.service.ITCheckInService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ITCheckInServiceImpl implements ITCheckInService {
 
@@ -30,5 +32,17 @@ public class ITCheckInServiceImpl implements ITCheckInService {
         }else{
             return tCheckInMapper.add(tAttendancesheet);
         }
+    }
+
+    @Override
+    @DataScope(deptAlias = "ta")
+    public List<TAttendancesheet> list(TAttendancesheet tAttendancesheet) {
+        SysUser sysUser = sysUserMapper.selectUserByUserName(tAttendancesheet.getUserName());
+        tAttendancesheet.setUserId(sysUser.getUserId());
+        List<TAttendancesheet> tAttendancesheets = tCheckInMapper.list(tAttendancesheet);
+        for(int i = 0;i<tAttendancesheets.size();i++){
+            tAttendancesheets.get(i).setUserName(tAttendancesheet.getUserName());
+        }
+        return tAttendancesheets;
     }
 }
