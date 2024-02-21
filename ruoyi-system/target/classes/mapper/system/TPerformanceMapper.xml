@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.TPerformanceMapper">
+
+    <resultMap id="TPerformanceResult" type="TPerformance">
+        <id property="id" column="id"/>
+        <result property="performanceName" column="performance_name"/>
+        <result property="performancePosition" column="performance_position"/>
+        <result property="performancePay" column="performance_pay"/>
+        <result property="isState" column="is_state"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createId" column="create_id"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="updateId" column="update_id"/>
+        <result property="tenantId" column="tenant_id"/>
+    </resultMap>
+
+    <sql id="selectTPerformanceVo">
+        select tp.id,tp.performance_name,tp.performance_position,tp.performance_pay,tp.is_state,
+               tp.create_time,tp.create_id,tp.update_time,tp.update_id,tp.tenant_id
+        from t_performance tp
+    </sql>
+
+    <select id="list"  parameterType="TPerformance" resultMap="TPerformanceResult">
+        <include refid="selectTPerformanceVo"></include>
+        <where>
+            tp.is_state = 1
+        </where>
+    </select>
+
+    <select id="selectTPerformanceListByPerformancePosition" parameterType="TPerformance" resultMap="TPerformanceResult">
+        <include refid="selectTPerformanceVo"></include>
+        <where>
+            tp.is_state = 1
+            and tp.performance_position = #{performancePosition}
+        </where>
+    </select>
+
+    <select id="selectTPerformanceListById" parameterType="Long" resultMap="TPerformanceResult">
+        <include refid="selectTPerformanceVo"></include>
+        <where>
+            tp.is_state = 1
+            and tp.id = #{id}
+        </where>
+    </select>
+
+    <insert id="add" parameterType="TPerformance" useGeneratedKeys="true" keyProperty="id">
+        insert into t_performance(
+        <if test="id != null and id != 0">id,</if>
+        <if test="performanceName != null and performanceName != ''">performance_name,</if>
+        <if test="performancePosition != null">performance_position,</if>
+        <if test="performancePay != null">performance_pay,</if>
+        <if test="isState != null">is_state,</if>
+        <if test="updateTime != null">update_time,</if>
+        <if test="tenantId != null and tenantId != 0">tenant_id,</if>
+        create_time
+        )values (
+        <if test="id != null and id != 0">#{id},</if>
+        <if test="performanceName != null and performanceName != ''">#{performanceName},</if>
+        <if test="performancePosition != null">#{performancePosition},</if>
+        <if test="performancePay != null">#{performancePay},</if>
+        <if test="isState != null">#{isState},</if>
+        <if test="updateTime != null">#{updateTime},</if>
+        <if test="tenantId != null and tenantId != 0">#{tenantId},</if>
+        sysdate()
+        )
+    </insert>
+
+    <update id="edit" parameterType="TPerformance">
+        update t_performance
+        <set>
+            <if test="performanceName != null and performanceName != ''">performance_name = #{performanceName},</if>
+            <if test="performancePosition != null">performance_position = #{performancePosition},</if>
+            <if test="performancePay != null">performance_pay = #{performancePay},</if>
+            update_time = sysdate()
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="remove" parameterType="TPerformance">
+        delete from t_performance where id = #{id}
+    </delete>
+
+    <delete id="removeByIds" parameterType="Long">
+        delete from t_performance where id = #{id}
+    </delete>
+</mapper>
