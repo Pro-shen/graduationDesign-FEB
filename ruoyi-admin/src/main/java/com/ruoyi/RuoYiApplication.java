@@ -3,6 +3,8 @@ package com.ruoyi;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * 启动程序
@@ -25,4 +27,6 @@ public class RuoYiApplication
                 "aa    ]8I \"8a,   ,aa    88      88      88 88,    ,88   88,     88,\n" +
                 "`\"YbbdP\"'  `\"Ybbd8\"'    88      88      88 `\"8bbdP\"Y8   \"Y888   \"Y888\n");
     }
+
+
 }
