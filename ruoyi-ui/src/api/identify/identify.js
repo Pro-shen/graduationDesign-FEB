@@ -7,3 +7,11 @@ export function list(query) {
     params: query,
   });
 }
+
+export function upload(data) {
+  return request({
+    url: "/identify/identify/upload",
+    method: "post",
+    data: data,
+  });
+}

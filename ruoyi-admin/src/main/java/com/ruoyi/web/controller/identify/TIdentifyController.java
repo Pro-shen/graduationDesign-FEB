@@ -1,6 +1,10 @@
 package com.ruoyi.web.controller.identify;
 
 import com.ruoyi.common.core.controller.BaseController;
+import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.framework.web.domain.server.Sys;
+import com.ruoyi.system.domain.TBase64Info;
+import com.ruoyi.system.domain.TPerformance;
 import com.ruoyi.system.domain.Test111;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -12,9 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
@@ -47,6 +49,18 @@ public class TIdentifyController extends BaseController {
 //        startPage();
 //        List<TMenu> tMenus = itMenuService.selectTMenuList(tMenu);
         return 1;
+    }
+
+    @PreAuthorize("@ss.hasAnyPermi('identify:identify:upload')")
+    @PostMapping("/upload")
+    public AjaxResult upload(@RequestBody TBase64Info tBase64Info){
+        AjaxResult ajax = AjaxResult.success();
+        String url = "http://127.0.0.1:5555/upload";
+        ResponseEntity<String> responseEntity = restTemplate.postForEntity(url,tBase64Info,String.class);
+        System.out.println(responseEntity);
+//        String a = responseEntity.getBody();
+//        ajax.put("data",itPerformanceService.edit(tPerformance));
+        return ajax;
     }
 
     public String uploadFile(String filePath) {

@@ -4,7 +4,7 @@
       <div
         style="width: 50%;height: 100%;display: flex;align-items: center;justify-content: center;flex-direction: column;">
         <video style="width: 100%;" ref="videoElement" autoplay></video>
-        <div style="height: 15%;"/>
+        <div style="height: 15%;" />
       </div>
       <div
         style="width: 50%;height: 100%;display: flex;align-items: center;justify-content: center;flex-direction: column;">
@@ -12,9 +12,9 @@
           <canvas ref="canvasElement"></canvas>
         </div>
         <div style="height: 50%;width: 100%;display: flex;align-items: center;justify-content: center;">
-          <el-button  @click="toggleCamera">{{ cameraActive ? '关闭摄像头' : '打开摄像头' }}</el-button>
-          <el-button  @click="takeSnapshot">拍摄</el-button>
-          <el-button  @click="downloadImage">下载图片</el-button>
+          <el-button @click="toggleCamera">{{ cameraActive ? '关闭摄像头' : '打开摄像头' }}</el-button>
+          <el-button @click="takeSnapshot">拍摄</el-button>
+          <el-button @click="downloadImage">下载图片</el-button>
         </div>
       </div>
     </div>
@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { list } from "@/api/identify/identify"
+import { list, upload } from "@/api/identify/identify"
 export default {
   data() {
     return {
@@ -33,8 +33,7 @@ export default {
         createTime: undefined
       },
       dateRange: [],
-
-
+      base64Info: {},
       cameraActive: false,
       snapshotUrl: '',
       stream: null,
@@ -81,20 +80,25 @@ export default {
       }
     },
     takeSnapshot() {
-      this.canvasElement.width = this.videoElement.videoWidth/2;
-      this.canvasElement.height = this.videoElement.videoHeight/2;
+      this.canvasElement.width = this.videoElement.videoWidth / 2;
+      this.canvasElement.height = this.videoElement.videoHeight / 2;
       const context = this.canvasElement.getContext('2d')
       const width = this.videoElement.videoWidth
       const height = this.videoElement.videoHeight
-      context.drawImage(this.videoElement, 0, 0, width/2, height/2);
+      context.drawImage(this.videoElement, 0, 0, width / 2, height / 2);
       this.snapshotUrl = this.canvasElement.toDataURL();
     },
     downloadImage() {
       if (this.snapshotUrl) {
-        const a = document.createElement('a');
-        a.href = this.snapshotUrl;
-        a.download = 'snapshot.jpg';
-        a.click();
+        this.base64Info = {}
+        this.base64Info.base64 = this.snapshotUrl
+        upload(this.base64Info).then(res=>{
+          console.log(res)
+        })
+        // const a = document.createElement('a');
+        // a.href = this.snapshotUrl;
+        // a.download = 'snapshot.jpg';
+        // a.click();
       }
     },
   }
