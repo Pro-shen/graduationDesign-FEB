@@ -2,10 +2,7 @@ package com.ruoyi.web.controller.identify;
 
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
-import com.ruoyi.framework.web.domain.server.Sys;
 import com.ruoyi.system.domain.TBase64Info;
-import com.ruoyi.system.domain.TPerformance;
-import com.ruoyi.system.domain.Test111;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.FileSystemResource;
@@ -21,7 +18,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
 import java.net.URLEncoder;
-import java.util.List;
 
 @RestController
 @RequestMapping("/identify/identify")
@@ -35,9 +31,9 @@ public class TIdentifyController extends BaseController {
     @Autowired
     private RestTemplate restTemplate;
 
-    @PreAuthorize("@ss.hasPermi('identify:identify:list')")
-    @GetMapping("/list")
-    public int list(){
+//    @PreAuthorize("@ss.hasPermi('identify:identify:list')")
+//    @GetMapping("/list")
+//    public int list(){
 //        System.out.println("111111");
 //        Test111 test111 = new Test111();
 //        test111.setTest("test");
@@ -45,21 +41,19 @@ public class TIdentifyController extends BaseController {
 //        ResponseEntity<String> responseEntity = restTemplate.postForEntity(url,test111,String.class);
 //        String a = responseEntity.getBody();
 //        System.out.println(a);
-        uploadFile("/Users/shencheng/Pictures/006.jpg");
+//        uploadFile("/Users/shencheng/Pictures/006.jpg");
 //        startPage();
 //        List<TMenu> tMenus = itMenuService.selectTMenuList(tMenu);
-        return 1;
-    }
+//        return 1;
+//    }
 
     @PreAuthorize("@ss.hasAnyPermi('identify:identify:upload')")
     @PostMapping("/upload")
     public AjaxResult upload(@RequestBody TBase64Info tBase64Info){
         AjaxResult ajax = AjaxResult.success();
         String url = "http://127.0.0.1:5555/upload";
-        ResponseEntity<String> responseEntity = restTemplate.postForEntity(url,tBase64Info,String.class);
-        System.out.println(responseEntity);
-//        String a = responseEntity.getBody();
-//        ajax.put("data",itPerformanceService.edit(tPerformance));
+        ResponseEntity<TBase64Info> responseEntity = restTemplate.postForEntity(url,tBase64Info,TBase64Info.class);
+        ajax.put("data",responseEntity);
         return ajax;
     }
 
