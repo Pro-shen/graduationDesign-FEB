@@ -123,6 +123,7 @@ export default {
             this.$modal.msgSuccess("打卡失败，请重试")
           } else if (res.data == 1) {
             this.$modal.msgSuccess("打卡成功")
+            this.getList()
           }
         })
 

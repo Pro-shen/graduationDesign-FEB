@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.TSalestableMapper">
+
+    <resultMap id="TSalestableResult" type="TSalestable">
+        <id property="id" column="id"/>
+        <result property="dishName" column="dish_name"/>
+        <result property="number" column="number"/>
+        <result property="dateTime" column="date_time"/>
+        <result property="dishId" column="dish_id"/>
+        <result property="dishProfit" column="dish_profit"/>
+        <result property="priceId" column="price_id"/>
+        <result property="isState" column="is_state"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createId" column="create_id"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="updateId" column="update_id"/>
+        <result property="tenantId" column="tenant_id"/>
+    </resultMap>
+
+    <sql id="selectTSalestableVo">
+        select ts.id,ts.dish_name,ts.number,ts.date_time,ts.dish_id,ts.dish_profit,
+               ts.price_id,ts.is_state,ts.create_time,ts.create_id,ts.update_time,
+               ts.update_id,ts.tenant_id
+        from t_salestable ts
+    </sql>
+
+    <select id="list" parameterType="TSalestable" resultMap="TSalestableResult">
+        <include refid="selectTSalestableVo"></include>
+        <where>
+            ts.is_state = 1
+            <if test="dishName!=null and dishName != ''">
+                AND ts.dish_name like concat('%', #{dishName}, '%')
+            </if>
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                AND ts.create_time &gt;= #{params.beginTime}
+            </if>
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                AND ts.create_time &lt;= #{params.endTime}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectListByDishNameAndDate" parameterType="TSalestable" resultMap="TSalestableResult">
+        <include refid="selectTSalestableVo"></include>
+        <where>
+            ts.is_state = 1
+            AND ts.dish_name = #{dishName}
+            AND ts.create_time = #{createTime}
+        </where>
+    </select>
+
+    <select id="selectListById" parameterType="Long" resultMap="TSalestableResult">
+        <include refid="selectTSalestableVo"></include>
+        <where>
+            ts.is_state = 1
+            AND ts.id = #{id}
+        </where>
+    </select>
+
+    <insert id="add" parameterType="TSalestable" useGeneratedKeys="true" keyProperty="id">
+        insert into t_salestable(
+        <if test="id != null and id != 0">id,</if>
+        <if test="dishName != null and dishName != ''">dish_name,</if>
+        <if test="number != null">number,</if>
+        <if test="dateTime != null">date_time,</if>
+        <if test="dishId != null">dish_id,</if>
+        <if test="dishProfit != null">dish_profit,</if>
+        <if test="priceId != null">price_id,</if>
+        <if test="isState != null">is_state,</if>
+        <if test="updateTime != null">update_time,</if>
+        <if test="tenantId != null and tenantId != 0">tenant_id,</if>
+        create_time
+        )
+        values (
+        <if test="id != null and id != ''">#{id},</if>
+        <if test="dishName != null and dishName != ''">#{dishName},</if>
+        <if test="number != null">#{number},</if>
+        <if test="dateTime != null">#{dateTime},</if>
+        <if test="dishId != null">#{dishId},</if>
+        <if test="dishProfit != null">#{dishProfit},</if>
+        <if test="priceId != null">#{priceId},</if>
+        <if test="isState != null">#{isState},</if>
+        <if test="updateTime != null">#{updateTime},</if>
+        <if test="tenantId != null and tenantId != 0">#{tenantId},</if>
+        sysdate()
+        )
+    </insert>
+
+    <insert id="addHaveCreateTime" parameterType="TSalestable" useGeneratedKeys="true" keyProperty="id">
+        insert into t_salestable(
+        <if test="id != null and id != 0">id,</if>
+        <if test="dishName != null and dishName != ''">dish_name,</if>
+        <if test="number != null">number,</if>
+        <if test="dateTime != null">date_time,</if>
+        <if test="dishId != null">dish_id,</if>
+        <if test="dishProfit != null">dish_profit,</if>
+        <if test="priceId != null">price_id,</if>
+        <if test="isState != null">is_state,</if>
+        <if test="updateTime != null">update_time,</if>
+        <if test="tenantId != null and tenantId != 0">tenant_id,</if>
+        <if test="createTime != null">create_time</if>
+        )
+        values (
+        <if test="id != null and id != ''">#{id},</if>
+        <if test="dishName != null and dishName != ''">#{dishName},</if>
+        <if test="number != null">#{number},</if>
+        <if test="dateTime != null">#{dateTime},</if>
+        <if test="dishId != null">#{dishId},</if>
+        <if test="dishProfit != null">#{dishProfit},</if>
+        <if test="priceId != null">#{priceId},</if>
+        <if test="isState != null">#{isState},</if>
+        <if test="updateTime != null">#{updateTime},</if>
+        <if test="tenantId != null and tenantId != 0">#{tenantId},</if>
+        <if test="createTime != null">#{createTime}</if>
+        )
+    </insert>
+
+    <update id="update" parameterType="TSalestable">
+        update t_salestable ts
+        <set>
+            <if test="priceId != null">ts.price_id = #{priceId},</if>
+            <if test="number != null">ts.number = #{number},</if>
+            ts.update_time = sysdate()
+        </set>
+        where ts.id = #{id}
+    </update>
+
+    <update id="edit" parameterType="TSalestable">
+        update t_salestable ts
+        <set>
+            <if test="dishId != null">ts.dish_id = #{dishId},</if>
+            <if test="number != null">ts.number = #{number},</if>
+            <if test="dishName != null">ts.dish_name = #{dishName},</if>
+            <if test="createTime != null">ts.create_time = #{createTime},</if>
+            ts.update_time = sysdate()
+        </set>
+        where ts.id = #{id}
+    </update>
+
+    <delete id="remove" parameterType="TSalestable">
+        delete from t_salestable where id = #{id}
+    </delete>
+
+    <delete id="removeByIds" parameterType="Long">
+        delete from t_salestable where id = #{id}
+    </delete>
+
+</mapper>

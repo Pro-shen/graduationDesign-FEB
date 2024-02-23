@@ -1,6 +1,7 @@
 package com.ruoyi.system.mapper;
 
 import com.ruoyi.system.domain.TFixPrice;
+import com.ruoyi.system.domain.TSalestable;
 import io.lettuce.core.dynamic.annotation.Param;
 
 import java.util.List;

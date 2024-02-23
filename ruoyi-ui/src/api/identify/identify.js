@@ -15,3 +15,11 @@ export function upload(data) {
     data: data,
   });
 }
+
+export function addList(data) {
+  return request({
+    url: "/identify/identify/addList",
+    method: "post",
+    data: data,
+  });
+}

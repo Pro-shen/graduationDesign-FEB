@@ -1,8 +1,11 @@
 package com.ruoyi.system.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
 import java.util.Date;
+import java.util.List;
 
 public class TSalestable extends BaseEntity {
 
@@ -14,7 +17,14 @@ public class TSalestable extends BaseEntity {
     /**
      * 菜品名称
      */
+    @Excel(name = "菜品名称")
     private String dishName;
+
+    /**
+     * 份数
+     */
+    @Excel(name = "菜品销量")
+    private Integer number;
 
     /**
      * 时间
@@ -44,6 +54,7 @@ public class TSalestable extends BaseEntity {
     /**
      * 创建时间
      */
+    @Excel(name = "销售时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date createTime;
 
     /**
@@ -54,6 +65,7 @@ public class TSalestable extends BaseEntity {
     /**
      * 更新时间
      */
+    @Excel(name = "更新时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date updateTime;
 
     /**
@@ -65,6 +77,11 @@ public class TSalestable extends BaseEntity {
      * 租户id
      */
     private Long tenantId;
+
+    /**
+     * ids
+     */
+    private List<Long> ids;
 
     public Long getId() {
         return id;
@@ -80,6 +97,14 @@ public class TSalestable extends BaseEntity {
 
     public void setDishName(String dishName) {
         this.dishName = dishName;
+    }
+
+    public Integer getNumber() {
+        return number;
+    }
+
+    public void setNumber(Integer number) {
+        this.number = number;
     }
 
     public Date getDateTime() {
@@ -164,5 +189,13 @@ public class TSalestable extends BaseEntity {
 
     public void setTenantId(Long tenantId) {
         this.tenantId = tenantId;
+    }
+
+    public List<Long> getIds() {
+        return ids;
+    }
+
+    public void setIds(List<Long> ids) {
+        this.ids = ids;
     }
 }

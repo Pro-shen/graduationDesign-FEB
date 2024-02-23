@@ -49,6 +49,12 @@
         and tm.is_state = 1
     </select>
 
+    <select id="selectTMenuListByPlateColor" parameterType="Integer" resultMap="TMenuResult">
+        <include refid="selectTmenuVo"></include>
+        where tm.plate_color = #{plateColor}
+        and tm.is_state = 1
+    </select>
+
     <insert id="add" parameterType="TMenu" useGeneratedKeys="true" keyProperty="id">
         insert into t_menu(
         <if test="id != null and id != 0">id,</if>

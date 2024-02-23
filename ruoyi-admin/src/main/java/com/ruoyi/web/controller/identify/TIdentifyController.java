@@ -2,7 +2,11 @@ package com.ruoyi.web.controller.identify;
 
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.framework.web.domain.server.Sys;
 import com.ruoyi.system.domain.TBase64Info;
+import com.ruoyi.system.domain.TFixPrice;
+import com.ruoyi.system.domain.TSalestable;
+import com.ruoyi.system.service.ITSalestableService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.FileSystemResource;
@@ -18,6 +22,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
 import java.net.URLEncoder;
+import java.util.List;
 
 @RestController
 @RequestMapping("/identify/identify")
@@ -30,6 +35,9 @@ public class TIdentifyController extends BaseController {
 
     @Autowired
     private RestTemplate restTemplate;
+
+    @Autowired
+    private ITSalestableService itSalestableService;
 
 //    @PreAuthorize("@ss.hasPermi('identify:identify:list')")
 //    @GetMapping("/list")
@@ -47,13 +55,22 @@ public class TIdentifyController extends BaseController {
 //        return 1;
 //    }
 
+
+    @PreAuthorize("@ss.hasAnyPermi('identify:identify:add')")
+    @PostMapping("/addList")
+    public AjaxResult addList(@RequestBody List<TSalestable> tSalestables) {
+        AjaxResult ajax = AjaxResult.success();
+        ajax.put("data",itSalestableService.addList(tSalestables));
+        return ajax;
+    }
+
     @PreAuthorize("@ss.hasAnyPermi('identify:identify:upload')")
     @PostMapping("/upload")
-    public AjaxResult upload(@RequestBody TBase64Info tBase64Info){
+    public AjaxResult upload(@RequestBody TBase64Info tBase64Info) {
         AjaxResult ajax = AjaxResult.success();
         String url = "http://127.0.0.1:5555/upload";
-        ResponseEntity<TBase64Info> responseEntity = restTemplate.postForEntity(url,tBase64Info,TBase64Info.class);
-        ajax.put("data",responseEntity);
+        ResponseEntity<TBase64Info> responseEntity = restTemplate.postForEntity(url, tBase64Info, TBase64Info.class);
+        ajax.put("data", responseEntity);
         return ajax;
     }
 
@@ -79,15 +96,12 @@ public class TIdentifyController extends BaseController {
     }
 
 
-
 //    public void main(String[] args){
 //        String test = "test";
 //        String url = "http://localhost:8081/Test/test/";
 //        ResponseEntity<String> responseEntity = restTemplate.postForEntity(url,test,String.class);
 //        return responseEntity.getBody();
 //    }
-
-
 
 
 }

@@ -18,6 +18,8 @@ public interface ITMenuService {
 
     public TMenu remove(TMenu tMenu);
 
+    public List<TFixPrice> listTree(List<TFixPrice> tFixPrices);
+
 
 
 }

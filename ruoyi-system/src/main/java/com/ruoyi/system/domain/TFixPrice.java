@@ -65,6 +65,11 @@ public class TFixPrice extends BaseEntity {
      */
     private List<Long> ids;
 
+    /**
+     * 价格菜单表
+     */
+    private List<TMenu> tMenus;
+
     public Long getId() {
         return id;
     }
@@ -147,5 +152,13 @@ public class TFixPrice extends BaseEntity {
 
     public void setIds(List<Long> ids) {
         this.ids = ids;
+    }
+
+    public List<TMenu> gettMenus() {
+        return tMenus;
+    }
+
+    public void settMenus(List<TMenu> tMenus) {
+        this.tMenus = tMenus;
     }
 }

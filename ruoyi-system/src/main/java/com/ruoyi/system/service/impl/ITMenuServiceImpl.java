@@ -1,6 +1,7 @@
 package com.ruoyi.system.service.impl;
 
 import com.ruoyi.common.annotation.DataScope;
+import com.ruoyi.system.domain.TFixPrice;
 import com.ruoyi.system.mapper.TMenuMapper;
 import com.ruoyi.system.service.ITMenuService;
 import com.ruoyi.system.domain.TMenu;
@@ -45,28 +46,37 @@ public class ITMenuServiceImpl implements ITMenuService {
         TMenu tMenu1 = new TMenu();
         if (tMenu.getId() != null) {
             int res = tMenuMapper.remove(tMenu);
-            if(res == 0){
+            if (res == 0) {
                 resByIdsList.add(tMenu.getId());
                 tMenu1.setIds(resByIdsList);
                 return tMenu1;
-            }else {
+            } else {
                 tMenu1.setIds(resByIdsList);
                 return tMenu1;
             }
-        } else if (tMenu.getIds() != null) {
+        } else if (!tMenu.getIds().isEmpty()) {
             int resById;
-            for(int i = 0;i<tMenu.getIds().size();i++){
+            for (int i = 0; i < tMenu.getIds().size(); i++) {
                 resById = tMenuMapper.removeByIds(tMenu.getIds().get(i));
-                if(resById == 0){
+                if (resById == 0) {
                     resByIdsList.add(tMenu.getIds().get(i));
                 }
             }
             tMenu1.setIds(resByIdsList);
             return tMenu1;
-        }else{
+        } else {
             resByIdsList.add(-1L);
             tMenu1.setIds(resByIdsList);
             return tMenu1;
         }
+    }
+
+    @Override
+    public List<TFixPrice> listTree(List<TFixPrice> tFixPrices) {
+        for (int i = 0; i < tFixPrices.size(); i++) {
+            List<TMenu> tMenus = tMenuMapper.selectTMenuListByPlateColor(tFixPrices.get(i).getPlateColor());
+            tFixPrices.get(i).settMenus(tMenus);
+        }
+        return tFixPrices;
     }
 }

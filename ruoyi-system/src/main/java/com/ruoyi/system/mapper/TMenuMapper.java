@@ -20,4 +20,6 @@ public interface TMenuMapper {
 
     public int removeByIds(@Param("id")Long id);
 
+    public List<TMenu>selectTMenuListByPlateColor(@Param("plateColor")Integer plateColor);
+
 }

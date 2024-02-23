@@ -57,62 +57,21 @@
     </el-dialog>
 
     <el-dialog title="选择售出的菜品" :visible.sync="dishNameDialog" width="500px" append-to-body>
-      <el-form ref="elForm" :model="formData" :rules="rules" size="medium">
-        <el-col :span="12">
-          <el-form-item label="选择菜品" prop="selector_1">
-            <el-cascader v-model="formData.selector_1" :options="selector_1_options" :props="selector_1_Props"
-              :style="{ width: '100%' }" placeholder="选择菜品" clearable></el-cascader>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="份数" prop="counter_1">
-            <el-input-number v-model="formData.counter_1" placeholder="份数" :precision='0'></el-input-number>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="选择菜品" prop="selector_2">
-            <el-cascader v-model="formData.selector_2" :options="selector_2_options" :props="selector_2_Props"
-              :style="{ width: '100%' }" placeholder="选择菜品" clearable></el-cascader>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="份数" prop="counter_2">
-            <el-input-number v-model="formData.counter_2" placeholder="份数" :precision='0'></el-input-number>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="选择菜品" prop="selector_3">
-            <el-cascader v-model="formData.selector_3" :options="selector_3_options" :props="selector_3_Props"
-              :style="{ width: '100%' }" placeholder="选择菜品" clearable></el-cascader>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="份数" prop="counter_3">
-            <el-input-number v-model="formData.counter_3" placeholder="份数" :precision='0'></el-input-number>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="选择菜品" prop="selector_4">
-            <el-cascader v-model="formData.selector_4" :options="selector_4_options" :props="selector_4_Props"
-              :style="{ width: '100%' }" placeholder="选择菜品" clearable></el-cascader>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="份数" prop="counter_4">
-            <el-input-number v-model="formData.counter_4" placeholder="份数" :precision='0'></el-input-number>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="选择菜品" prop="selector_5">
-            <el-cascader v-model="formData.selector_5" :options="selector_5_options" :props="selector_5_Props"
-              :style="{ width: '100%' }" placeholder="选择菜品" clearable></el-cascader>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="份数" prop="counter_5">
-            <el-input-number v-model="formData.counter_5" placeholder="份数" :precision='0'></el-input-number>
-          </el-form-item>
-        </el-col>
+      <el-form ref="elForm" size="medium">
+        <el-row v-for="(item, index) in formData" :key="index">
+          <el-col :span="12">
+            <el-form-item label="选择菜品">
+              <el-cascader v-model="item.selector" :options="item.options" :style="{ width: '100%' }" placeholder="选择菜品"
+                clearable></el-cascader>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="份数">
+              <el-input-number v-model="item.number" placeholder="份数" :precision='0' :min="0"></el-input-number>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
       </el-form>
       <div style="height: 50px;width: 100%;display: flex;align-items: center;justify-content: center;">
         <el-button type="primary" @click="submitForm_dish">确定</el-button>
@@ -123,45 +82,37 @@
 </template>
 
 <script>
-import { upload } from "@/api/identify/identify"
+import { upload, addList } from "@/api/identify/identify"
 import { listPrice } from "@/api/restaurant/fixPrice"
+import { listMenuTree } from "@/api/restaurant/menu"
 export default {
   dicts: ['t_plate_color'],
   data() {
     return {
-      formData: {
-        counter_1: 0,
-        counter_2: 0,
-        counter_3: 0,
-        counter_4: 0,
-        counter_5: 0,
-        selector_1: [],
-        selector_2: [],
-        selector_3: [],
-        selector_4: [],
-        selector_5: [],
-      },
-      selector_1_options: [],
-      selector_2_options: [],
-      selector_3_options: [],
-      selector_4_options: [],
-      selector_5_options: [],
-      selector_1_Props: {
-        "multiple": false
-      },
-      selector_2_Props: {
-        "multiple": false
-      },
-      selector_3_Props: {
-        "multiple": false
-      },
-      selector_4_Props: {
-        "multiple": false
-      },
-      selector_5_Props: {
-        "multiple": false
-      },
-      dishNameDialog: true,
+      formData: [
+        {
+          number: 0,
+          selector: [],
+          options: []
+        }, {
+          number: 0,
+          selector: [],
+          options: []
+        }, {
+          number: 0,
+          selector: [],
+          options: []
+        }, {
+          number: 0,
+          selector: [],
+          options: []
+        }, {
+          number: 0,
+          selector: [],
+          options: []
+        }
+      ],
+      dishNameDialog: false,
       open: false,
       queryParams: {
         tenantId: 1,
@@ -194,53 +145,6 @@ export default {
         pageSize: 10,
         dishName: ''
       },
-      rules: {
-        counter_1: [
-          { required: true, message: "菜品数量不能为空", trigger: "blur" }
-        ],
-        counter_2: [
-          { required: true, message: "菜品数量不能为空", trigger: "blur" }
-        ],
-        counter_3: [
-          { required: true, message: "菜品数量不能为空", trigger: "blur" }
-        ],
-        counter_4: [
-          { required: true, message: "菜品数量不能为空", trigger: "blur" }
-        ],
-        counter_5: [
-          { required: true, message: "菜品数量不能为空", trigger: "blur" }
-        ],
-        selector_1: [{
-          required: true,
-          type: 'array',
-          message: '请至少选择一个菜品',
-          trigger: 'change'
-        }],
-        selector_2: [{
-          required: true,
-          type: 'array',
-          message: '请至少选择一个菜品',
-          trigger: 'change'
-        }],
-        selector_3: [{
-          required: true,
-          type: 'array',
-          message: '请至少选择一个菜品',
-          trigger: 'change'
-        }],
-        selector_4: [{
-          required: true,
-          type: 'array',
-          message: '请至少选择一个菜品',
-          trigger: 'change'
-        }],
-        selector_5: [{
-          required: true,
-          type: 'array',
-          message: '请至少选择一个菜品',
-          trigger: 'change'
-        }],
-      }
     }
   },
   mounted() {
@@ -274,7 +178,22 @@ export default {
     },
     getList() {
       listPrice(this.queryParams).then(response => {
-        this.TPriceList = response.rows
+        listMenuTree(response.rows).then(response => {
+          var list = response.data
+          for (var i = 0; i < list.length; i++) {
+            for (var j = 0; j < list[i].tMenus.length; j++) {
+              list[i].tMenus[j].label = list[i].tMenus[j].dishName
+              list[i].tMenus[j].value = list[i].tMenus[j].id
+            }
+            list[i].children = list[i].tMenus
+            list[i].value = list[i].plateColor
+            list[i].label = this.dict.type.t_plate_color[list[i].plateColor].label
+          }
+          this.TPriceList = list
+          for (i = 0; i < this.formData.length; i++) {
+            this.formData[i].options = this.TPriceList
+          }
+        })
       })
     },
     toggleCamera() {
@@ -367,26 +286,34 @@ export default {
     slectDishName() {
       this.dishNameDialog = true
     },
-    submitForm_dish() {
+    submitForm_dish: function () {
+      var flag = 0
+      var list = []
+      var date = new Date();
+      for (var i = 0; i < this.formData.length; i++) {
+        if (this.formData[i].number != 0) {
+          list.push({
+            number: this.formData[i].number,
+            dishId: this.formData[i].selector[1],
+            isState: 1,
+            createTime:date
+          })
+          flag = 1
+        }
+      }
+      if (flag == 1) {
+        addList(list).then(res => {
+          if (res.data != 0) {
+            this.$modal.msgError("添加失败")
+          } else {
+            this.$modal.msgSuccess("添加成功")
+          }
+        })
+      }
       this.dishNameDialog = false
     },
     cancel_dish() {
       this.dishNameDialog = false
-    },
-    selector_1_Options() {
-
-    },
-    selector_2_Options() {
-
-    },
-    selector_3_Options() {
-
-    },
-    selector_4_Options() {
-
-    },
-    selector_5_Options() {
-
     },
   }
 }

@@ -64,7 +64,7 @@ public class ITFixPriceServiceImpl implements ITFixPriceService {
                 tFixPrice1.setIds(resByIdsList);
                 return tFixPrice1;
             }
-        }else if(tFixPrice.getIds()!=null){
+        }else if(!tFixPrice.getIds().isEmpty()){
             int resById;
             for(int i = 0;i<tFixPrice.getIds().size();i++){
                 resById = tFixPriceMapper.removeByIds(tFixPrice.getIds().get(i));

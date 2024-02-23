@@ -56,7 +56,7 @@ public class ITPerformanceServiceImpl implements ITPerformanceService {
                 tPerformance1.setIds(resByIdsList);
                 return tPerformance1;
             }
-        }else if(tPerformance.getIds() != null){
+        }else if(!tPerformance.getIds().isEmpty()){
             int resById;
             for(int i = 0;i<tPerformance.getIds().size();i++){
                 resById = tPerformanceMapper.removeByIds(tPerformance.getIds().get(i));

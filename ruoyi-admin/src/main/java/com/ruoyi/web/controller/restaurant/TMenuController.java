@@ -33,8 +33,17 @@ public class TMenuController extends BaseController {
         return getDataTable(tMenus);
     }
 
+    @PreAuthorize("@ss.hasAnyPermi('restaurant:menu:listTree')")
+    @Log(title = "菜单树查询", businessType = BusinessType.INSERT)
+    @PostMapping("/listTree")
+    public AjaxResult listTree(@Validated @RequestBody List<TFixPrice> tFixPrices){
+        AjaxResult ajax = new AjaxResult();
+        ajax.put("data",itMenuService.listTree(tFixPrices));
+        return ajax;
+    }
+
     @PreAuthorize("@ss.hasAnyPermi('restaurant:menu:add')")
-    @Log(title = "菜单管理", businessType = BusinessType.INSERT)
+    @Log(title = "菜单增加", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     public AjaxResult add(@Validated @RequestBody TMenu tMenu){
         AjaxResult ajax = new AjaxResult();

@@ -51,7 +51,7 @@ public class TMenu extends BaseEntity {
     /**
      * 创建时间
      */
-    @Excel(name = "创建时间")
+    @Excel(name = "创建时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date createTime;
 
     /**
@@ -62,7 +62,7 @@ public class TMenu extends BaseEntity {
     /**
      * 更新时间
      */
-    @Excel(name = "更新时间")
+    @Excel(name = "更新时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date updateTime;
 
     /**
