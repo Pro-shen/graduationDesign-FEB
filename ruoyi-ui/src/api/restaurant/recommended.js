@@ -8,6 +8,14 @@ export function list(query) {
   });
 }
 
+export function recommend(query){
+  return request({
+    url: "/restaurant/recommended/recommend",
+    method: "get",
+    params: query,
+  });
+}
+
 export function add(data) {
   return request({
     url: "/restaurant/recommended/add",

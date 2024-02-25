@@ -32,6 +32,14 @@ public class TRecommendedController extends BaseController {
         return getDataTable(tSalestables);
     }
 
+    @PreAuthorize("@ss.hasPermi('restaurant:recommended:recommend')")
+    @GetMapping("/recommend")
+    public AjaxResult recommend(TSalestable tSalestable) {
+        AjaxResult ajax = new AjaxResult();
+        ajax.put("data",itSalestableService.list(tSalestable));
+        return ajax;
+    }
+
     @PreAuthorize("@ss.hasAnyPermi('restaurant:recommended:listById')")
     @GetMapping("/selectTSalestableListById/{id}")
     public AjaxResult selectTSalestableListById(@PathVariable("id") Long id) {
@@ -76,5 +84,7 @@ public class TRecommendedController extends BaseController {
         ExcelUtil<TSalestable> util = new ExcelUtil<TSalestable>(TSalestable.class);
         util.exportExcel(response, list, "进菜管理表单");
     }
+
+
 
 }

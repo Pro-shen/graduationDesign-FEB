@@ -17,6 +17,11 @@ public class TPayroll extends BaseEntity {
     private Long userId;
 
     /**
+     * 用户名字
+     */
+    private String userName;
+
+    /**
      * 时间
      */
     private Date dateTime;
@@ -70,6 +75,14 @@ public class TPayroll extends BaseEntity {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public Date getDateTime() {

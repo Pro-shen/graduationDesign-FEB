@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.TPayrollMapper">
+
+    <resultMap id="TPayrollResult" type="TPayroll">
+        <id property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="userName" column="user_name"/>
+        <result property="dateTime" column="date_time"/>
+        <result property="payroll" column="payroll"/>
+        <result property="isState" column="is_state"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createId" column="create_id"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="updateId" column="update_id"/>
+        <result property="tenantId" column="tenant_id"/>
+    </resultMap>
+
+    <sql id="selectTPayrollVo">
+        select tp.id,tp.user_id,tp.user_name,tp.date_time,tp.payroll,tp.is_state,tp.create_time,
+               tp.create_id,tp.update_time,tp.update_id,tp.tenant_id
+        from t_payroll tp
+    </sql>
+
+    <select id="selectTPayrollList" parameterType="TPayroll" resultMap="TPayrollResult">
+        <include refid="selectTPayrollVo"></include>
+        <where>
+            tp.is_state = 1
+            <if test="userName != null and userName != ''">
+                AND tp.user_name like concat('%', #{userName}, '%')
+            </if>
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                AND tp.create_time &gt;= #{params.beginTime}
+            </if>
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                AND tp.create_time &lt;= #{params.endTime}
+            </if>
+        </where>
+    </select>
+
+</mapper>

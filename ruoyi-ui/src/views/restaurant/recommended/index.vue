@@ -32,6 +32,10 @@
         <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport"
           v-hasPermi="['restaurant:recommended:export']">导出</el-button>
       </el-col>
+      <el-col :span="1.5">
+        <el-button type="info" plain icon="el-icon-star-on" size="mini" @click="handlerecommended"
+          v-hasPermi="['restaurant:recommended:recommended']">推荐</el-button>
+      </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
@@ -53,6 +57,9 @@
       </el-table-column>
     </el-table>
 
+    <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
+      @pagination="getList" />
+
     <el-dialog title="进菜管理" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="100px">
         <el-form-item label="选择菜品">
@@ -72,11 +79,26 @@
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
+
+    <el-dialog title="进菜推荐" :visible.sync="recommendOpen" width="500px" append-to-body>
+      <div style="width: 100%;display: flex;align-items: center;justify-content: center;font-size: 40;font-weight: 500;">菜品销量统计表</div>
+      <el-table :data="dialogDishesList" row-key="id" :default-expand-all="isExpandAll"
+        :tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
+        <el-table-column prop="dishName" label="菜品名称" width="170"></el-table-column>
+        <el-table-column prop="number" label="菜品销量" class-name="small-padding fixed-width"></el-table-column>
+      </el-table>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="recommendSubmitForm">确 定</el-button>
+        <el-button @click="recommendCancel">取 消</el-button>
+      </div>
+      <div style="width: 100%;display: flex;align-items: center;justify-content: center;font-size: 40;font-weight: 500;">推荐进菜的菜品为:{{recommendDish}}</div>
+    </el-dialog>
+
   </div>
 </template>
   
 <script>
-import { list, add, selectTSalestableListById, edit, remove } from "@/api/restaurant/recommended"
+import { list, add, selectTSalestableListById, edit, remove, recommend } from "@/api/restaurant/recommended"
 import { listPrice } from "@/api/restaurant/fixPrice"
 import { listMenuTree } from "@/api/restaurant/menu"
 export default {
@@ -105,11 +127,14 @@ export default {
       multiple: true,
       single: true,
       refreshTable: true,
+      recommendOpen: false,
       tRecommendedList: [],
+      recommendDish:undefined,
       isExpandAll: true,
       open: false,
       add: true,
       ids: [],
+      dialogDishesList: [],
       rules: {
         number: [
           { required: true, message: "菜品数量不能为空", trigger: "blur" }
@@ -272,7 +297,6 @@ export default {
       var str = ""
       var listOrInt = 1
       for (var i = 0; i < ids.length; i++) {
-        console.log(this.queryParams[ids[i]])
         if (i == ids.length - 1) {
           str = str + "日期为:" + createTimes[i] + "的" + dishNames[i]
         } else {
@@ -312,6 +336,52 @@ export default {
       this.download('/restaurant/recommended/export', {
         ...this.queryParams
       }, `进菜管理_${new Date().getTime()}.xlsx`)
+    },
+    handlerecommended() {
+      recommend(this.queryParams).then(res => {
+        var list = res.data
+        var DishesList = []
+        for (var i = 0; i < list.length; i++) {
+          var n = 0;
+          for (var j = 0; j < DishesList.length; j++) {
+            if (list[i].dishId == DishesList[j].dishId) {
+              n = 1
+              DishesList[j].number = DishesList[j].number + list[i].number
+              break
+            }
+          }
+          if (n == 0) {
+            DishesList.push({
+              dishId: list[i].dishId,
+              dishName: list[i].dishName,
+              number: list[i].number
+            })
+          }
+        }
+        var maxToMin = {}
+        for (i = DishesList.length - 1; i > 0; i--) {
+          for (j = 0; j < i; j++) {
+            if (DishesList[i].number > DishesList[j].number) {
+              maxToMin = DishesList[i]
+              DishesList[i] = DishesList[j]
+              DishesList[j] = maxToMin
+            }
+          }
+        }
+        if(DishesList.length > 0){
+          this.recommendDish = DishesList[0].dishName
+        }else{
+          this.recommendDish = "没有菜品"
+        }
+        this.dialogDishesList = DishesList
+        this.recommendOpen = true
+      })
+    },
+    recommendSubmitForm() {
+      this.recommendOpen = false
+    },
+    recommendCancel() {
+      this.recommendOpen = false
     },
     reset() {
       this.form.number = 0

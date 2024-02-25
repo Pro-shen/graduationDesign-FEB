@@ -26,6 +26,7 @@ public class ITCheckInServiceImpl implements ITCheckInService {
     public int add(TAttendancesheet tAttendancesheet) {
         SysUser sysUser = sysUserMapper.selectUserByUserName(tAttendancesheet.getUserName());
         tAttendancesheet.setUserId(sysUser.getUserId());
+        tAttendancesheet.setUserName(sysUser.getUserName());
         TAttendancesheet tAttendancesheet1 = tCheckInMapper.selectTAttendancesheet(tAttendancesheet);
         if(tAttendancesheet1!=null){
             return -1;
@@ -40,9 +41,6 @@ public class ITCheckInServiceImpl implements ITCheckInService {
         SysUser sysUser = sysUserMapper.selectUserByUserName(tAttendancesheet.getUserName());
         tAttendancesheet.setUserId(sysUser.getUserId());
         List<TAttendancesheet> tAttendancesheets = tCheckInMapper.list(tAttendancesheet);
-        for(int i = 0;i<tAttendancesheets.size();i++){
-            tAttendancesheets.get(i).setUserName(tAttendancesheet.getUserName());
-        }
         return tAttendancesheets;
     }
 }

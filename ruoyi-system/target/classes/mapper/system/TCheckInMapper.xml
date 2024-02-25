@@ -6,6 +6,7 @@
 
     <resultMap id="TAttendancesheetResult" type="TAttendancesheet">
         <id property="id" column="id"/>
+        <result property="userName" column="user_name"/>
         <result property="userId" column="user_id"/>
         <result property="attendanceTime" column="attendance_time"/>
         <result property="attendanceType" column="attendance_type"/>
@@ -18,7 +19,7 @@
     </resultMap>
 
     <sql id="selectTAttendancesheetVo">
-        select ta.id,ta.user_id,ta.attendance_time,ta.attendance_type,ta.is_state,ta.create_time,
+        select ta.id,ta.user_name,ta.user_id,ta.attendance_time,ta.attendance_type,ta.is_state,ta.create_time,
                ta.create_id,ta.update_time,ta.update_id,ta.tenant_id
         from t_attendancesheet ta
     </sql>
@@ -56,6 +57,7 @@
     <insert id="add" parameterType="TAttendancesheet" useGeneratedKeys="true" keyProperty="id">
         insert into t_attendancesheet(
         <if test="id != null and id != 0">id,</if>
+        <if test="userName != null and userName != ''">user_name,</if>
         <if test="userId != null and userId != 0">user_id,</if>
         <if test="attendanceTime != null">attendance_time,</if>
         <if test="attendanceType != null">attendance_type,</if>
@@ -65,6 +67,7 @@
         create_time
         )values (
         <if test="id != null and id != 0">#{id},</if>
+        <if test="userName != null and userName != ''">#{userName},</if>
         <if test="userId != null and userId != 0">#{userId},</if>
         <if test="attendanceTime != null">#{attendanceTime},</if>
         <if test="attendanceType != null">#{attendanceType},</if>

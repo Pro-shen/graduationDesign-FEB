@@ -51,31 +51,31 @@
 
 ### t_attendancesheet(签到表)
 
->#id，用户id，签到时间，签到类型（0:上班，1:下班）,is_state，创建时间，创建人id，更新时间，更新人id，租户id
+>#id，用户名，用户id，签到时间，签到类型（0:上班，1:下班）,is_state，创建时间，创建人id，更新时间，更新人id，租户id
 >
->| 表单 | id     | user_id | attendance_time | attendance_type | is_state | create_time | create_id | update_time | update_id | tenant_id |
->| ---- | ------ | ------- | --------------- | --------------- | -------- | ----------- | --------- | ----------- | --------- | --------- |
->| 参数 | Bigint | Bigint  | Date            | int             | Int      | Date        | Bigint    | Date        | Bigint    | Bigint    |
+>| 表单 | id     | user_name | user_id | attendance_time | attendance_type | is_state | create_time | create_id | update_time | update_id | tenant_id |
+>| ---- | ------ | --------- | ------- | --------------- | --------------- | -------- | ----------- | --------- | ----------- | --------- | --------- |
+>| 参数 | Bigint | Vachar30  | Bigint  | Date            | int             | Int      | Date        | Bigint    | Date        | Bigint    | Bigint    |
 
 
 
 ### t_salestable(销售表)
 
->#id，菜品名称，时间，菜品id，菜品盈利，价格id，is_state，创建时间，创建人id，更新时间，更新人id，租户id
+>#id，菜品名称，份数，时间，菜品id，菜品盈利，价格id，is_state，创建时间，创建人id，更新时间，更新人id，租户id
 >
->| 表单 | id     | dish_name | date_time | dish_id | dish_profit | price_id | is_state | create_time | create_id | update_time | update_id | tenant_id |
->| ---- | ------ | --------- | --------- | ------- | ----------- | -------- | -------- | ----------- | --------- | ----------- | --------- | --------- |
->| 参数 | Bigint | Varchar30 | date      | bigint  | Double      | Bigint   | Int      | Date        | Bigint    | Date        | Bigint    | Bigint    |
+>| 表单 | id     | dish_name | number | date_time | dish_id | dish_profit | price_id | is_state | create_time | create_id | update_time | update_id | tenant_id |
+>| ---- | ------ | --------- | ------ | --------- | ------- | ----------- | -------- | -------- | ----------- | --------- | ----------- | --------- | --------- |
+>| 参数 | Bigint | Varchar30 | Ingter | date      | bigint  | Double      | Bigint   | Int      | Date        | Bigint    | Date        | Bigint    | Bigint    |
 
 
 
 ### t_payroll(工资表)
 
->#id，用户id，时间，工资，is_state，创建时间，创建人id，更新时间，更新人id，租户id
+>#id，用户id，用户名字，时间，工资，is_state，创建时间，创建人id，更新时间，更新人id，租户id
 >
->| 表单 | id     | user_id | date_time | payroll | is_state | create_time | create_id | update_time | update_id | tenant_id |
->| ---- | ------ | ------- | --------- | ------- | -------- | ----------- | --------- | ----------- | --------- | --------- |
->| 参数 | bigint | Bigint  | date      | double  | Int      | Date        | Bigint    | Date        | Bigint    | Bigint    |
+>| 表单 | id     | user_id | user_name | date_time | payroll | is_state | create_time | create_id | update_time | update_id | tenant_id |
+>| ---- | ------ | ------- | --------- | --------- | ------- | -------- | ----------- | --------- | ----------- | --------- | --------- |
+>| 参数 | bigint | Bigint  | Varchar30 | date      | double  | Int      | Date        | Bigint    | Date        | Bigint    | Bigint    |
 
 
 
