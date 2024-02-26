@@ -1,16 +1,23 @@
 package com.ruoyi.web.controller.restaurant;
 
+import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
+import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
+import com.ruoyi.common.enums.BusinessType;
+import com.ruoyi.common.utils.poi.ExcelUtil;
+import com.ruoyi.framework.web.domain.server.Sys;
+import com.ruoyi.system.domain.TFixPrice;
+import com.ruoyi.system.domain.TMenu;
 import com.ruoyi.system.domain.TPayroll;
 import com.ruoyi.system.domain.TSalestable;
 import com.ruoyi.system.service.ITPayrollService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @RestController
@@ -28,6 +35,56 @@ public class TPayrollController extends BaseController {
         return getDataTable(tPayrolls);
     }
 
+    @PreAuthorize("@ss.hasAnyPermi('restaurant:payroll:add')")
+    @Log(title = "工资增加", businessType = BusinessType.INSERT)
+    @PostMapping("/add")
+    public AjaxResult add(@Validated @RequestBody TPayroll tPayroll){
+        AjaxResult ajax = new AjaxResult();
+        ajax.put("data",itPayrollService.add(tPayroll));
+        return ajax;
+    }
 
+    @PreAuthorize("@ss.hasAnyPermi('restaurant:payroll:timedTasks')")
+    @Log(title = "工资定时任务", businessType = BusinessType.INSERT)
+    @PostMapping("/selectTPayrollListByDay")
+    public AjaxResult selectTPayrollListByDay(){
+        AjaxResult ajax = new AjaxResult();
+        ajax.put("data",itPayrollService.selectTPayrollListByDay());
+        return ajax;
+    }
+
+    @PreAuthorize("@ss.hasAnyPermi('restaurant:payroll:edit')")
+    @GetMapping("/selectTPayrollListById/{id}")
+    public AjaxResult selectTMenuListById(@PathVariable("id") Long id){
+        AjaxResult ajax = AjaxResult.success();
+        ajax.put("data",itPayrollService.selectTPayrollListById(id));
+        return ajax;
+    }
+
+    @PreAuthorize("@ss.hasAnyPermi('restaurant:payroll:edit')")
+    @PostMapping("/edit")
+    public AjaxResult edit(@RequestBody TPayroll tPayroll){
+        AjaxResult ajax = AjaxResult.success();
+        ajax.put("data",itPayrollService.edit(tPayroll));
+        return ajax;
+    }
+
+    @PreAuthorize("@ss.hasAnyPermi('restaurant:payroll:remove')")
+    @PostMapping("/remove")
+    public AjaxResult remove(@RequestBody TPayroll tPayroll){
+        AjaxResult ajax = AjaxResult.success();
+        ajax.put("data",itPayrollService.remove(tPayroll));
+        return ajax;
+    }
+
+    @Log(title = "工资表单", businessType = BusinessType.EXPORT)
+    @PreAuthorize("@ss.hasPermi('restaurant:payroll:export')")
+    @PostMapping("/export")
+    public void export(HttpServletResponse response, TPayroll tPayroll)
+    {
+        List<TPayroll> list = itPayrollService.list(tPayroll);
+        ExcelUtil<TPayroll> util = new ExcelUtil<TPayroll>(TPayroll.class);
+        util.exportExcel(response, list, "工资表单");
+    }
 
 }

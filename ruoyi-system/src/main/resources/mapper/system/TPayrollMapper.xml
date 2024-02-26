@@ -18,6 +18,11 @@
         <result property="tenantId" column="tenant_id"/>
     </resultMap>
 
+    <resultMap id="TDayResult" type="TDay">
+        <result property="startDay" column="start_day"/>
+        <result property="endDay" column="end_day"/>
+    </resultMap>
+
     <sql id="selectTPayrollVo">
         select tp.id,tp.user_id,tp.user_name,tp.date_time,tp.payroll,tp.is_state,tp.create_time,
                tp.create_id,tp.update_time,tp.update_id,tp.tenant_id
@@ -39,5 +44,77 @@
             </if>
         </where>
     </select>
+
+    <select id="selectTPayrollListByUserNameAndCreateTime" parameterType="TPayroll" resultMap="TPayrollResult">
+        <include refid="selectTPayrollVo"></include>
+        <where>
+            tp.is_state = 1
+            <if test="userName != null">
+                AND tp.user_name = #{userName}
+            </if>
+            <if test="createTime != null">
+                AND tp.create_time = #{createTime}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectTPayrollListById" parameterType="Long" resultMap="TPayrollResult">
+        <include refid="selectTPayrollVo"></include>
+        <where>
+            tp.is_state = 1
+            <if test="id != null">
+                AND tp.id = #{id}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectTPayrollListByDay" parameterType="TDay" resultMap="TPayrollResult">
+        <include refid="selectTPayrollVo"></include>
+        <where>
+            tp.is_state = 1
+            <if test="startDay != null">
+                AND tp.create_time &gt;= #{startDay}
+            </if>
+            <if test="endDay != null">
+                AND tp.create_time &lt;= #{endDay}
+            </if>
+        </where>
+    </select>
+
+    <insert id="add" parameterType="TPayroll" useGeneratedKeys="true" keyProperty="id">
+        insert into t_payroll(
+        <if test="userId != null">user_id,</if>
+        <if test="userName != null and userName != ''">user_name,</if>
+        <if test="isState != null">is_state,</if>
+        <if test="payroll != null">payroll,</if>
+        <if test="createTime != null">create_time</if>
+        )values (
+        <if test="userId != null">#{userId},</if>
+        <if test="userName != null and userName != ''">#{userName},</if>
+        <if test="isState != null">#{isState},</if>
+        <if test="payroll != null">#{payroll},</if>
+        <if test="createTime != null">#{createTime}</if>
+        )
+    </insert>
+
+    <update id="edit" parameterType="TPayroll">
+        update t_payroll
+        <set>
+            <if test="userId !=null and userId !=''">user_id = #{userId},</if>
+            <if test="userName !=null and userName !=''">user_name = #{userName},</if>
+            <if test="payroll != null">payroll = #{payroll},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            update_time = sysdate()
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="remove" parameterType="TPayroll">
+        delete from t_payroll where id = #{id}
+    </delete>
+
+    <delete id="removeByIds" parameterType="Long">
+        delete from t_payroll where id = #{id}
+    </delete>
 
 </mapper>

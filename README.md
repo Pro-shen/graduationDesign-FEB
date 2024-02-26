@@ -69,13 +69,23 @@
 
 
 
-### t_payroll(工资表)
+### t_payroll(日薪表)
 
 >#id，用户id，用户名字，时间，工资，is_state，创建时间，创建人id，更新时间，更新人id，租户id
 >
 >| 表单 | id     | user_id | user_name | date_time | payroll | is_state | create_time | create_id | update_time | update_id | tenant_id |
 >| ---- | ------ | ------- | --------- | --------- | ------- | -------- | ----------- | --------- | ----------- | --------- | --------- |
 >| 参数 | bigint | Bigint  | Varchar30 | date      | double  | Int      | Date        | Bigint    | Date        | Bigint    | Bigint    |
+
+
+
+### t_month_payroll(月薪表)
+
+>#id，用户id，用户名字，时间，工资，is_state，创建时间，创建人id，更新时间，更新人id，租户id
+>
+>| 表单 | id     | user_id | user_name | date_time | payroll | is_state | create_time | create_id | update_time | update_id | tenant_id |
+>| ---- | ------ | ------- | --------- | --------- | ------- | -------- | ----------- | --------- | ----------- | --------- | --------- |
+>| 参数 | Bigint | Bigint  | Varchar30 | Date      | Double  | Int      | Date        | Bigint    | Date        | Bigint    | Bigint    |
 
 
 

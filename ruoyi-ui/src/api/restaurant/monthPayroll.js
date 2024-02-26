@@ -2,7 +2,7 @@ import request from "@/utils/request";
 
 export function listTPayroll(query) {
   return request({
-    url: "/restaurant/payroll/list",
+    url: "/restaurant/monthPayroll/list",
     method: "get",
     params: query,
   });
@@ -10,7 +10,7 @@ export function listTPayroll(query) {
 
 export function add(data) {
   return request({
-    url: "/restaurant/payroll/add",
+    url: "/restaurant/monthPayroll/add",
     method: "post",
     data: data,
   });
@@ -18,14 +18,14 @@ export function add(data) {
 
 export function selectTPayrollListById(id) {
   return request({
-    url: "/restaurant/payroll/selectTPayrollListById/" + id,
+    url: "/restaurant/monthPayroll/selectTPayrollListById/" + id,
     method: "get",
   });
 }
 
 export function edit(data) {
   return request({
-    url: "/restaurant/payroll/edit",
+    url: "/restaurant/monthPayroll/edit",
     method: "post",
     data: data,
   });
@@ -33,15 +33,8 @@ export function edit(data) {
 
 export function remove(data) {
   return request({
-    url: "/restaurant/payroll/remove",
+    url: "/restaurant/monthPayroll/remove",
     method: "post",
     data: data,
-  });
-}
-
-export function selectTPayrollListByDay() {
-  return request({
-    url: "/restaurant/payroll/selectTPayrollListByDay",
-    method: "post",
   });
 }

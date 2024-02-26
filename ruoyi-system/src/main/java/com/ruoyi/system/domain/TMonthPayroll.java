@@ -6,7 +6,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
 import java.util.Date;
 import java.util.List;
 
-public class TPayroll extends BaseEntity {
+public class TMonthPayroll extends BaseEntity {
 
     /**
      * 自增id
@@ -43,7 +43,7 @@ public class TPayroll extends BaseEntity {
     /**
      * 创建时间
      */
-    @Excel(name = "工资日期", width = 30, dateFormat = "yyyy-MM-dd")
+    @Excel(name = "工资日期", width = 30, dateFormat = "yyyy-MM")
     private Date createTime;
 
     /**
@@ -54,7 +54,7 @@ public class TPayroll extends BaseEntity {
     /**
      * 更新时间
      */
-    @Excel(name = "修改日期", width = 30, dateFormat = "yyyy-MM-dd")
+    @Excel(name = "修改日期", width = 30, dateFormat = "yyyy-MM")
     private Date updateTime;
 
     /**
@@ -171,4 +171,5 @@ public class TPayroll extends BaseEntity {
     public void setIds(List<Long> ids) {
         this.ids = ids;
     }
+
 }

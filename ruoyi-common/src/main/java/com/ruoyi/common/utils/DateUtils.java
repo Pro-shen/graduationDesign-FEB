@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.Calendar;
 import java.util.Date;
 import org.apache.commons.lang3.time.DateFormatUtils;
 
@@ -188,4 +189,55 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils
         ZonedDateTime zdt = localDateTime.atZone(ZoneId.systemDefault());
         return Date.from(zdt.toInstant());
     }
+
+    /**
+     * 根据年月获取月初第一天日期
+     * @return
+     */
+    public static String getFirstDay() {
+        Date date = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String format = "yyyy-MM-dd";
+        int year = Integer.parseInt(dateFormat.format(date).substring(0,4));
+        int month = Integer.parseInt(dateFormat.format(date).substring(5,7));
+        Calendar cale = Calendar.getInstance();
+        cale.set(Calendar.YEAR,year);    //赋值年份
+        cale.set(Calendar.MONTH, month-1);//赋值月份
+        int lastDay = cale.getActualMinimum(Calendar.DAY_OF_MONTH);//获取月最大天数
+        cale.set(Calendar.DAY_OF_MONTH, lastDay);//设置日历中月份的最大天数
+        SimpleDateFormat sdf = new SimpleDateFormat(format);//格式化日期yyyy-MM-dd
+        String lastDayOfMonth = sdf.format(cale.getTime());
+        return lastDayOfMonth;
+    }
+
+    public static Date getFirstDayByDate(){
+        Calendar calendar = Calendar.getInstance(); // 创建Calendar对象
+        int year = calendar.get(Calendar.YEAR); // 获取年份
+        int month = calendar.get(Calendar.MONTH); // 获取月份（注意：月份从0开始计数）
+        calendar.set(year, month, 1);
+        return calendar.getTime();
+    }
+
+
+    /**
+     * 根据年月获取月末最后一天日期
+     * @return
+     */
+    public static String getLastDay() {
+        Date date = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String format = "yyyy-MM-dd";
+        int year = Integer.parseInt(dateFormat.format(date).substring(0,4));
+        int month = Integer.parseInt(dateFormat.format(date).substring(5,7));
+        Calendar cale = Calendar.getInstance();
+        cale.set(Calendar.YEAR,year);//赋值年份
+        cale.set(Calendar.MONTH, month-1);//赋值月份
+        int lastDay = cale.getActualMaximum(Calendar.DAY_OF_MONTH);//获取月最大天数
+        cale.set(Calendar.DAY_OF_MONTH, lastDay);//设置日历中月份的最大天数
+        SimpleDateFormat sdf = new SimpleDateFormat(format);    //格式化日期yyyy-MM-dd
+        String lastDayOfMonth = sdf.format(cale.getTime());
+        return lastDayOfMonth;
+    }
+
+
 }

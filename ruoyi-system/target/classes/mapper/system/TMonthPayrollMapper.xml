@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ruoyi.system.mapper.TPayrollMapper">
+<mapper namespace="com.ruoyi.system.mapper.TMonthPayrollMapper">
 
-    <resultMap id="TPayrollResult" type="TPayroll">
+    <resultMap id="TMonthPayrollResult" type="TMonthPayroll">
         <id property="id" column="id"/>
         <result property="userId" column="user_id"/>
         <result property="userName" column="user_name"/>
@@ -18,71 +18,53 @@
         <result property="tenantId" column="tenant_id"/>
     </resultMap>
 
-    <resultMap id="TDayResult" type="TDay">
-        <result property="startDay" column="start_day"/>
-        <result property="endDay" column="end_day"/>
-    </resultMap>
-
-    <sql id="selectTPayrollVo">
-        select tp.id,tp.user_id,tp.user_name,tp.date_time,tp.payroll,tp.is_state,tp.create_time,
-               tp.create_id,tp.update_time,tp.update_id,tp.tenant_id
-        from t_payroll tp
+    <sql id="selectTMonthPayrollVo">
+        select tmp.id,tmp.user_id,tmp.user_name,tmp.date_time,tmp.payroll,tmp.is_state,tmp.create_time,
+               tmp.create_id,tmp.update_time,tmp.update_id,tmp.tenant_id
+        from t_month_payroll tmp
     </sql>
 
-    <select id="selectTPayrollList" parameterType="TPayroll" resultMap="TPayrollResult">
-        <include refid="selectTPayrollVo"></include>
+    <select id="selectTMonthPayrollList" parameterType="TMonthPayroll" resultMap="TMonthPayrollResult">
+        <include refid="selectTMonthPayrollVo"></include>
         <where>
-            tp.is_state = 1
+            tmp.is_state = 1
             <if test="userName != null and userName != ''">
-                AND tp.user_name like concat('%', #{userName}, '%')
+                AND tmp.user_name like concat('%', #{userName}, '%')
             </if>
             <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
-                AND tp.create_time &gt;= #{params.beginTime}
+                AND tmp.create_time &gt;= #{params.beginTime}
             </if>
             <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
-                AND tp.create_time &lt;= #{params.endTime}
+                AND tmp.create_time &lt;= #{params.endTime}
             </if>
         </where>
     </select>
 
-    <select id="selectTPayrollListByUserNameAndCreateTime" parameterType="TPayroll" resultMap="TPayrollResult">
-        <include refid="selectTPayrollVo"></include>
+    <select id="selectTMonthPayrollListByUserNameAndCreateTime" parameterType="TMonthPayroll" resultMap="TMonthPayrollResult">
+        <include refid="selectTMonthPayrollVo"></include>
         <where>
-            tp.is_state = 1
+            tmp.is_state = 1
             <if test="userName != null">
-                AND tp.user_name = #{userName}
+                AND tmp.user_name = #{userName}
             </if>
             <if test="createTime != null">
-                AND tp.create_time = #{createTime}
+                AND tmp.create_time = #{createTime}
             </if>
         </where>
     </select>
 
-    <select id="selectTPayrollListById" parameterType="Long" resultMap="TPayrollResult">
-        <include refid="selectTPayrollVo"></include>
+    <select id="selectTMonthPayrollListById" parameterType="Long" resultMap="TMonthPayrollResult">
+        <include refid="selectTMonthPayrollVo"></include>
         <where>
-            tp.is_state = 1
+            tmp.is_state = 1
             <if test="id != null">
-                AND tp.id = #{id}
+                AND tmp.id = #{id}
             </if>
         </where>
     </select>
 
-    <select id="selectTPayrollListByDay" parameterType="TDay" resultMap="TPayrollResult">
-        <include refid="selectTPayrollVo"></include>
-        <where>
-            tp.is_state = 1
-            <if test="startDay != null">
-                AND tp.create_time &gt;= #{startDay}
-            </if>
-            <if test="endDay != null">
-                AND tp.create_time &lt;= #{endDay}
-            </if>
-        </where>
-    </select>
-
-    <insert id="add" parameterType="TPayroll" useGeneratedKeys="true" keyProperty="id">
-        insert into t_payroll(
+    <insert id="add" parameterType="TMonthPayroll" useGeneratedKeys="true" keyProperty="id">
+        insert into t_month_payroll(
         <if test="userId != null">user_id,</if>
         <if test="userName != null and userName != ''">user_name,</if>
         <if test="isState != null">is_state,</if>
@@ -97,8 +79,8 @@
         )
     </insert>
 
-    <update id="edit" parameterType="TPayroll">
-        update t_payroll
+    <update id="edit" parameterType="TMonthPayroll">
+        update t_month_payroll
         <set>
             <if test="userId !=null and userId !=''">user_id = #{userId},</if>
             <if test="userName !=null and userName !=''">user_name = #{userName},</if>
@@ -109,12 +91,12 @@
         where id = #{id}
     </update>
 
-    <delete id="remove" parameterType="TPayroll">
-        delete from t_payroll where id = #{id}
+    <delete id="remove" parameterType="TMonthPayroll">
+        delete from t_month_payroll where id = #{id}
     </delete>
 
     <delete id="removeByIds" parameterType="Long">
-        delete from t_payroll where id = #{id}
+        delete from t_month_payroll where id = #{id}
     </delete>
 
 </mapper>

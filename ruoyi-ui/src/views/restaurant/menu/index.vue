@@ -146,9 +146,9 @@ export default {
       this.multiple = !selection.length
     },
     handleAdd() {
-      this.open = true,
-        this.add = true,
-        this.reset()
+      this.open = true
+      this.add = true
+      this.reset()
     },
     handleUpdate(row) {
       this.add = false
