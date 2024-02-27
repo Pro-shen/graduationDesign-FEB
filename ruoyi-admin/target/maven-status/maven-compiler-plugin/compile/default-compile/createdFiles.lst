@@ -25,6 +25,7 @@ com/ruoyi/web/controller/system/SysRoleController.class
 com/ruoyi/RuoYiServletInitializer.class
 com/ruoyi/web/controller/restaurant/TFixPriceController.class
 com/ruoyi/web/controller/restaurant/TPayrollController.class
+com/ruoyi/web/controller/restaurant/TReportManagerController.class
 com/ruoyi/web/controller/system/SysPostController.class
 com/ruoyi/web/controller/system/SysUserController.class
 com/ruoyi/web/controller/system/SysNoticeController.class

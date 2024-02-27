@@ -7,6 +7,7 @@
 /Users/shencheng/idea_projects/graduationDesign/ruoyi-quartz/src/main/java/com/ruoyi/quartz/service/ISysJobService.java
 /Users/shencheng/idea_projects/graduationDesign/ruoyi-quartz/src/main/java/com/ruoyi/quartz/util/QuartzJobExecution.java
 /Users/shencheng/idea_projects/graduationDesign/ruoyi-quartz/src/main/java/com/ruoyi/quartz/mapper/SysJobLogMapper.java
+/Users/shencheng/idea_projects/graduationDesign/ruoyi-quartz/src/main/java/com/ruoyi/quartz/task/TRecommendedTask.java
 /Users/shencheng/idea_projects/graduationDesign/ruoyi-quartz/src/main/java/com/ruoyi/quartz/util/QuartzDisallowConcurrentExecution.java
 /Users/shencheng/idea_projects/graduationDesign/ruoyi-quartz/src/main/java/com/ruoyi/quartz/config/ScheduleConfig.java
 /Users/shencheng/idea_projects/graduationDesign/ruoyi-quartz/src/main/java/com/ruoyi/quartz/util/AbstractQuartzJob.java

@@ -14,6 +14,7 @@
 /Users/shencheng/idea_projects/graduationDesign/ruoyi-admin/src/main/java/com/ruoyi/web/core/config/SwaggerConfig.java
 /Users/shencheng/idea_projects/graduationDesign/ruoyi-admin/src/main/java/com/ruoyi/web/controller/identify/TIdentifyController.java
 /Users/shencheng/idea_projects/graduationDesign/ruoyi-admin/src/main/java/com/ruoyi/web/controller/system/SysNoticeController.java
+/Users/shencheng/idea_projects/graduationDesign/ruoyi-admin/src/main/java/com/ruoyi/web/controller/restaurant/TReportManagerController.java
 /Users/shencheng/idea_projects/graduationDesign/ruoyi-admin/src/main/java/com/ruoyi/web/controller/monitor/SysLogininforController.java
 /Users/shencheng/idea_projects/graduationDesign/ruoyi-admin/src/main/java/com/ruoyi/web/controller/monitor/CacheController.java
 /Users/shencheng/idea_projects/graduationDesign/ruoyi-admin/src/main/java/com/ruoyi/web/controller/common/CommonController.java

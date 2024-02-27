@@ -25,7 +25,7 @@ public class TCheckInController extends BaseController {
     @Autowired
     private ITCheckInService itCheckInService;
 
-    @PreAuthorize("@ss.hasAnyPermi('restaurant:checkin:add')")
+    @PreAuthorize("@ss.hasAnyPermi('restaurant:checkIn:add')")
     @Log(title = "打卡管理", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     public AjaxResult add(@Validated @RequestBody TAttendancesheet tAttendancesheet) {

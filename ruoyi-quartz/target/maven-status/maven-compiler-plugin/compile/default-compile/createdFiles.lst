@@ -1,3 +1,4 @@
+com/ruoyi/quartz/task/TRecommendedTask.class
 com/ruoyi/quartz/service/ISysJobLogService.class
 com/ruoyi/quartz/domain/SysJob.class
 com/ruoyi/quartz/util/ScheduleUtils.class
