@@ -10,4 +10,6 @@ public interface ITCheckInService {
 
     public List<TAttendancesheet> list(TAttendancesheet tAttendancesheet);
 
+    public List<TAttendancesheet> selectCheckInByDate(String createTime);
+
 }

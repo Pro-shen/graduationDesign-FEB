@@ -7,6 +7,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.system.domain.TMenu;
+import com.ruoyi.system.domain.TPayroll;
 import com.ruoyi.system.domain.TSalestable;
 import com.ruoyi.system.service.ITSalestableService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,6 +86,14 @@ public class TRecommendedController extends BaseController {
         util.exportExcel(response, list, "进菜管理表单");
     }
 
-
+    @Log(title = "月工资定时任务", businessType = BusinessType.EXPORT)
+    @PreAuthorize("@ss.hasPermi('restaurant:recommended:timedTasks')")
+    @PostMapping("/timedTasks")
+    public AjaxResult timedTasks()
+    {
+        AjaxResult ajax = new AjaxResult();
+        ajax.put("data",itSalestableService.dayPayrollCountParams());
+        return ajax;
+    }
 
 }

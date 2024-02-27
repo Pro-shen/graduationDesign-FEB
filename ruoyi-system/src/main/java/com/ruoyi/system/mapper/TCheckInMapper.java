@@ -12,4 +12,6 @@ public interface TCheckInMapper {
 
     public List<TAttendancesheet> list(TAttendancesheet tAttendancesheet);
 
+    public List<TAttendancesheet> selectCheckInByDate(String createTime);
+
 }

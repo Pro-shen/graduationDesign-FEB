@@ -43,4 +43,10 @@ public class ITCheckInServiceImpl implements ITCheckInService {
         List<TAttendancesheet> tAttendancesheets = tCheckInMapper.list(tAttendancesheet);
         return tAttendancesheets;
     }
+
+    @Override
+    @DataScope(deptAlias = "ta")
+    public List<TAttendancesheet> selectCheckInByDate(String createTime) {
+        return tCheckInMapper.selectCheckInByDate(createTime);
+    }
 }

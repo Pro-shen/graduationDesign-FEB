@@ -45,7 +45,7 @@ public class TPayrollController extends BaseController {
     }
 
     @PreAuthorize("@ss.hasAnyPermi('restaurant:payroll:timedTasks')")
-    @Log(title = "工资定时任务", businessType = BusinessType.INSERT)
+    @Log(title = "日工资定时任务", businessType = BusinessType.INSERT)
     @PostMapping("/selectTPayrollListByDay")
     public AjaxResult selectTPayrollListByDay(){
         AjaxResult ajax = new AjaxResult();

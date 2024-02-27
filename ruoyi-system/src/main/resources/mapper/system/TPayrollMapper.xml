@@ -72,6 +72,9 @@
         <include refid="selectTPayrollVo"></include>
         <where>
             tp.is_state = 1
+            <if test="userName != null and userName != ''">
+                AND tp.user_name = #{userName}
+            </if>
             <if test="startDay != null">
                 AND tp.create_time &gt;= #{startDay}
             </if>

@@ -33,8 +33,12 @@
           v-hasPermi="['restaurant:recommended:export']">导出</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button type="info" plain icon="el-icon-star-on" size="mini" @click="handlerecommended"
+        <el-button type="info" plain icon="el-icon-star-on" size="mini" @click="handleRecommended"
           v-hasPermi="['restaurant:recommended:recommended']">推荐</el-button>
+      </el-col>
+      <el-col :span="1.5">
+        <el-button plain icon="el-icon-message-solid" size="mini" @click="handlerRegular"
+          v-hasPermi="['restaurant:recommended:timedTasks']">进菜管理统计到日工资定时任务</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
@@ -81,7 +85,8 @@
     </el-dialog>
 
     <el-dialog title="进菜推荐" :visible.sync="recommendOpen" width="500px" append-to-body>
-      <div style="width: 100%;display: flex;align-items: center;justify-content: center;font-size: 40;font-weight: 500;">菜品销量统计表</div>
+      <div style="width: 100%;display: flex;align-items: center;justify-content: center;font-size: 40;font-weight: 500;">
+        菜品销量统计表</div>
       <el-table :data="dialogDishesList" row-key="id" :default-expand-all="isExpandAll"
         :tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
         <el-table-column prop="dishName" label="菜品名称" width="170"></el-table-column>
@@ -91,14 +96,15 @@
         <el-button type="primary" @click="recommendSubmitForm">确 定</el-button>
         <el-button @click="recommendCancel">取 消</el-button>
       </div>
-      <div style="width: 100%;display: flex;align-items: center;justify-content: center;font-size: 40;font-weight: 500;">推荐进菜的菜品为:{{recommendDish}}</div>
+      <div style="width: 100%;display: flex;align-items: center;justify-content: center;font-size: 40;font-weight: 500;">
+        推荐进菜的菜品为:{{ recommendDish }}</div>
     </el-dialog>
 
   </div>
 </template>
   
 <script>
-import { list, add, selectTSalestableListById, edit, remove, recommend } from "@/api/restaurant/recommended"
+import { list, add, selectTSalestableListById, edit, remove, recommend, timeTasks } from "@/api/restaurant/recommended"
 import { listPrice } from "@/api/restaurant/fixPrice"
 import { listMenuTree } from "@/api/restaurant/menu"
 export default {
@@ -129,7 +135,7 @@ export default {
       refreshTable: true,
       recommendOpen: false,
       tRecommendedList: [],
-      recommendDish:undefined,
+      recommendDish: undefined,
       isExpandAll: true,
       open: false,
       add: true,
@@ -337,7 +343,7 @@ export default {
         ...this.queryParams
       }, `进菜管理_${new Date().getTime()}.xlsx`)
     },
-    handlerecommended() {
+    handleRecommended() {
       recommend(this.queryParams).then(res => {
         var list = res.data
         var DishesList = []
@@ -368,9 +374,9 @@ export default {
             }
           }
         }
-        if(DishesList.length > 0){
+        if (DishesList.length > 0) {
           this.recommendDish = DishesList[0].dishName
-        }else{
+        } else {
           this.recommendDish = "没有菜品"
         }
         this.dialogDishesList = DishesList
@@ -389,6 +395,19 @@ export default {
       this.form.dateTime = undefined
       this.resetForm("form")
     },
+    handlerRegular() {
+      timeTasks().then(res => {
+        if (res.data == -1) {
+          this.$modal.msgError("统计日工资定时任务没有菜品销售份数")
+        } else if (res.data == -2) {
+          this.$modal.msgError("统计日工资定时任务没有服务者打卡完成")
+        } else if (res.data == 0) {
+          this.$modal.msgSuccess("统计日工资定时任务完成")
+        } else {
+          this.$modal.msgError("统计日工资定时任务有" + res.data + "项失败")
+        }
+      })
+    }
   }
 }
 </script>

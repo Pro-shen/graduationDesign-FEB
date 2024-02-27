@@ -13,6 +13,8 @@ public interface TSalestableMapper {
 
     public List<TSalestable> selectListById(@Param("id")Long id);
 
+    public List<TSalestable> selectListByDate(String createTime);
+
     public int addList(List<TSalestable> tSalestableList);
 
     public int add(TSalestable tSalestable);

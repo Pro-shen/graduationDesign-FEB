@@ -54,6 +54,16 @@
         </where>
     </select>
 
+    <select id="selectCheckInByDate" parameterType="String" resultMap="TAttendancesheetResult">
+        <include refid="selectTAttendancesheetVo"></include>
+        <where>
+        ta.is_state = 1
+        <if test="createTime != null and createTime != ''">
+            AND ta.create_time = #{createTime}
+        </if>
+        </where>
+    </select>
+
     <insert id="add" parameterType="TAttendancesheet" useGeneratedKeys="true" keyProperty="id">
         insert into t_attendancesheet(
         <if test="id != null and id != 0">id,</if>

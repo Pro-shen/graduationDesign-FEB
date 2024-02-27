@@ -17,4 +17,6 @@ public interface ITSalestableService {
     public int edit(TSalestable tSalestable);
 
     public TSalestable remove(TSalestable tSalestable);
+
+    public int dayPayrollCountParams();
 }

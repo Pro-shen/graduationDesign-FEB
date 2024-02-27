@@ -60,6 +60,14 @@
         </where>
     </select>
 
+    <select id="selectListByDate" parameterType="String" resultMap="TSalestableResult">
+        <include refid="selectTSalestableVo"></include>
+        <where>
+            ts.is_state = 1
+            AND ts.create_time = #{createTime}
+        </where>
+    </select>
+
     <insert id="add" parameterType="TSalestable" useGeneratedKeys="true" keyProperty="id">
         insert into t_salestable(
         <if test="id != null and id != 0">id,</if>

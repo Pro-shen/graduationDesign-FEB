@@ -120,6 +120,7 @@ export default {
     },
     handleAdd() {
       this.add = true
+      this.reset()
       this.open = true
     },
     handleUpdate(row) {

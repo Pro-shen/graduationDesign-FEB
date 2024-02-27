@@ -8,7 +8,7 @@ export function list(query) {
   });
 }
 
-export function recommend(query){
+export function recommend(query) {
   return request({
     url: "/restaurant/recommended/recommend",
     method: "get",
@@ -44,5 +44,12 @@ export function remove(data) {
     url: "/restaurant/recommended/remove",
     method: "post",
     data: data,
+  });
+}
+
+export function timeTasks() {
+  return request({
+    url: "/restaurant/recommended/timedTasks",
+    method: "post",
   });
 }

@@ -33,8 +33,8 @@
           v-hasPermi="['restaurant:payroll:export']">导出</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button type="info" plain icon="el-icon-download" size="mini" @click="handleRegular"
-          v-hasPermi="['restaurant:payroll:timedTasks']">定时任务测试</el-button>
+        <el-button plain icon="el-icon-message-solid" size="mini" @click="handleRegular"
+          v-hasPermi="['restaurant:payroll:timedTasks']">日工资统计到月工资定时任务</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
@@ -267,7 +267,11 @@ export default {
     },
     handleRegular() {
       selectTPayrollListByDay().then(res => {
-        console.log(res)
+        if(res.data == 0){
+          this.$modal.msgSuccess("统计日工资定时任务完成")
+        }else{
+          this.$modal.msgError("统计月工资定时任务有" + res.data + "项失败")
+        }
       })
     }
   }
