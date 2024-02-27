@@ -2,16 +2,17 @@ import request from "@/utils/request";
 
 export function add(data) {
   return request({
-    url: "/restaurant/checkin/add",
+    url: "/restaurant/checkIn/add",
     method: "post",
     data: data,
   });
 }
 
-export function list(data) {
+export function list(query) {
   return request({
-    url: "/restaurant/checkin/list",
-    method: "post",
-    data: data,
+    url: "/restaurant/checkIn/list",
+    method: "get",
+    params: query,
   });
 }
+

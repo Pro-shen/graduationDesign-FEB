@@ -27,6 +27,7 @@ public class TPerformanceController extends BaseController {
     private ITPerformanceService itPerformanceService;
 
     @PreAuthorize("@ss.hasPermi('restaurant:performance:list')")
+    @Log(title = "绩效规则查询", businessType = BusinessType.OTHER)
     @GetMapping("/list")
     public TableDataInfo list(TPerformance tPerformance){
         startPage();
@@ -52,6 +53,7 @@ public class TPerformanceController extends BaseController {
     }
 
     @PreAuthorize("@ss.hasAnyPermi('restaurant:performance:edit')")
+    @Log(title = "绩效规则修改", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     public AjaxResult edit(@RequestBody TPerformance tPerformance){
         AjaxResult ajax = AjaxResult.success();
@@ -60,6 +62,7 @@ public class TPerformanceController extends BaseController {
     }
 
     @PreAuthorize("@ss.hasAnyPermi('restaurant:performance:remove')")
+    @Log(title = "绩效规则删除", businessType = BusinessType.DELETE)
     @PostMapping("/remove")
     public AjaxResult remove(@RequestBody TPerformance tPerformance){
         AjaxResult ajax = AjaxResult.success();

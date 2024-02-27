@@ -148,18 +148,16 @@ public class ITSalestableServiceImpl implements ITSalestableService {
         }
         TPerformance tPerformance = new TPerformance();
         List<TPerformance> tPerformances = itPerformanceService.list(tPerformance);
-        System.out.println(tPerformances.size());
         double payroll = 0;
         for (int i = 0; i < tPerformances.size(); i++) {
             if (dishscount > tPerformances.get(i).getPerformancePosition()) {
                 payroll = tPerformances.get(i).getPerformancePay();
             }
         }
-        System.out.println("销售数量为:" + dishscount + ",获得的工资为:" + payroll);
         List<TAttendancesheet> tAttendancesheets = itCheckInService.selectCheckInByDate(DateUtils.getDate());
         /**
          * 因为懒:
-         * 借用 List<tAttendancesheet> tAttendancesheets1存储上班下班打卡的用户,attendanceType当上班状态（0：未签到，1：签到），
+         * 借用 Lit<tAttendancesheet> tAttendancesheets1存储上班下班打卡的用户,attendanceType当上班状态（0：未签到，1：签到），
          * isState当下班状态（0：未签到，1：签到）
          */
         List<TAttendancesheet> tAttendancesheets1 = new ArrayList<>();

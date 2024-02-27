@@ -203,7 +203,6 @@ export default {
       var str = ""
       var listOrInt = 1
       for (var i = 0; i < ids.length; i++) {
-        console.log(this.queryParams[ids[i]])
         if (i == ids.length - 1) {
           str = str + dishNames[i]
         } else {

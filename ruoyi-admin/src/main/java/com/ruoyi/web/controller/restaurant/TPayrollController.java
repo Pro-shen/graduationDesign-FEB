@@ -28,6 +28,7 @@ public class TPayrollController extends BaseController {
     private ITPayrollService itPayrollService;
 
     @PreAuthorize("@ss.hasPermi('restaurant:payroll:list')")
+    @Log(title = "日工资查询", businessType = BusinessType.OTHER)
     @GetMapping("/list")
     public TableDataInfo list(TPayroll tPayroll) {
         startPage();
@@ -36,7 +37,7 @@ public class TPayrollController extends BaseController {
     }
 
     @PreAuthorize("@ss.hasAnyPermi('restaurant:payroll:add')")
-    @Log(title = "工资增加", businessType = BusinessType.INSERT)
+    @Log(title = "日工资增加", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     public AjaxResult add(@Validated @RequestBody TPayroll tPayroll){
         AjaxResult ajax = new AjaxResult();
@@ -45,7 +46,7 @@ public class TPayrollController extends BaseController {
     }
 
     @PreAuthorize("@ss.hasAnyPermi('restaurant:payroll:timedTasks')")
-    @Log(title = "日工资定时任务", businessType = BusinessType.INSERT)
+    @Log(title = "日工资定时任务", businessType = BusinessType.OTHER)
     @PostMapping("/selectTPayrollListByDay")
     public AjaxResult selectTPayrollListByDay(){
         AjaxResult ajax = new AjaxResult();
@@ -62,6 +63,7 @@ public class TPayrollController extends BaseController {
     }
 
     @PreAuthorize("@ss.hasAnyPermi('restaurant:payroll:edit')")
+    @Log(title = "日工资修改", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     public AjaxResult edit(@RequestBody TPayroll tPayroll){
         AjaxResult ajax = AjaxResult.success();
@@ -70,6 +72,7 @@ public class TPayrollController extends BaseController {
     }
 
     @PreAuthorize("@ss.hasAnyPermi('restaurant:payroll:remove')")
+    @Log(title = "日工资删除", businessType = BusinessType.DELETE)
     @PostMapping("/remove")
     public AjaxResult remove(@RequestBody TPayroll tPayroll){
         AjaxResult ajax = AjaxResult.success();
@@ -77,7 +80,7 @@ public class TPayrollController extends BaseController {
         return ajax;
     }
 
-    @Log(title = "工资表单", businessType = BusinessType.EXPORT)
+    @Log(title = "日工资表单", businessType = BusinessType.EXPORT)
     @PreAuthorize("@ss.hasPermi('restaurant:payroll:export')")
     @PostMapping("/export")
     public void export(HttpServletResponse response, TPayroll tPayroll)

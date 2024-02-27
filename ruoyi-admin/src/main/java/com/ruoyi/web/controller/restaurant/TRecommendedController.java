@@ -26,6 +26,7 @@ public class TRecommendedController extends BaseController {
     private ITSalestableService itSalestableService;
 
     @PreAuthorize("@ss.hasPermi('restaurant:recommended:list')")
+    @Log(title = "进菜管理查询", businessType = BusinessType.OTHER)
     @GetMapping("/list")
     public TableDataInfo list(TSalestable tSalestable) {
         startPage();
@@ -34,6 +35,7 @@ public class TRecommendedController extends BaseController {
     }
 
     @PreAuthorize("@ss.hasPermi('restaurant:recommended:recommend')")
+    @Log(title = "进菜管理建议", businessType = BusinessType.OTHER)
     @GetMapping("/recommend")
     public AjaxResult recommend(TSalestable tSalestable) {
         AjaxResult ajax = new AjaxResult();
@@ -60,6 +62,7 @@ public class TRecommendedController extends BaseController {
     }
 
     @PreAuthorize("@ss.hasAnyPermi('restaurant:recommended:edit')")
+    @Log(title = "进菜管理修改", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     public AjaxResult edit(@RequestBody TSalestable tSalestable){
         AjaxResult ajax = AjaxResult.success();
@@ -68,6 +71,7 @@ public class TRecommendedController extends BaseController {
     }
 
     @PreAuthorize("@ss.hasAnyPermi('restaurant:recommended:remove')")
+    @Log(title = "进菜管理删除", businessType = BusinessType.DELETE)
     @PostMapping("/remove")
     public AjaxResult remove(@RequestBody TSalestable tSalestable){
         AjaxResult ajax = AjaxResult.success();
@@ -86,7 +90,7 @@ public class TRecommendedController extends BaseController {
         util.exportExcel(response, list, "进菜管理表单");
     }
 
-    @Log(title = "月工资定时任务", businessType = BusinessType.EXPORT)
+    @Log(title = "月工资定时任务", businessType = BusinessType.OTHER)
     @PreAuthorize("@ss.hasPermi('restaurant:recommended:timedTasks')")
     @PostMapping("/timedTasks")
     public AjaxResult timedTasks()

@@ -25,6 +25,7 @@ public class TMonthPayrollController extends BaseController {
     private ITMonthPayrollService itMonthPayrollService;
 
     @PreAuthorize("@ss.hasPermi('restaurant:monthPayroll:list')")
+    @Log(title = "月工资查询", businessType = BusinessType.OTHER)
     @GetMapping("/list")
     public TableDataInfo list(TMonthPayroll tMonthPayroll) {
         startPage();
@@ -33,7 +34,7 @@ public class TMonthPayrollController extends BaseController {
     }
 
     @PreAuthorize("@ss.hasAnyPermi('restaurant:monthPayroll:add')")
-    @Log(title = "工资增加", businessType = BusinessType.INSERT)
+    @Log(title = "月工资增加", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     public AjaxResult add(@Validated @RequestBody TMonthPayroll tMonthPayroll){
         AjaxResult ajax = new AjaxResult();
@@ -50,6 +51,7 @@ public class TMonthPayrollController extends BaseController {
     }
 
     @PreAuthorize("@ss.hasAnyPermi('restaurant:monthPayroll:edit')")
+    @Log(title = "月工资修改", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     public AjaxResult edit(@RequestBody TMonthPayroll tMonthPayroll){
         AjaxResult ajax = AjaxResult.success();
@@ -58,6 +60,7 @@ public class TMonthPayrollController extends BaseController {
     }
 
     @PreAuthorize("@ss.hasAnyPermi('restaurant:monthPayroll:remove')")
+    @Log(title = "月工资删除", businessType = BusinessType.DELETE)
     @PostMapping("/remove")
     public AjaxResult remove(@RequestBody TMonthPayroll tMonthPayroll){
         AjaxResult ajax = AjaxResult.success();
@@ -65,7 +68,7 @@ public class TMonthPayrollController extends BaseController {
         return ajax;
     }
 
-    @Log(title = "工资表单", businessType = BusinessType.EXPORT)
+    @Log(title = "月工资表单", businessType = BusinessType.EXPORT)
     @PreAuthorize("@ss.hasPermi('restaurant:monthPayroll:export')")
     @PostMapping("/export")
     public void export(HttpServletResponse response, TMonthPayroll tMonthPayroll)

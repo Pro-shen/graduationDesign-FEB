@@ -26,6 +26,7 @@ public class TFixPriceController extends BaseController {
 
     @PreAuthorize("@ss.hasPermi('restaurant:fixPrice:list')")
     @GetMapping("/list")
+    @Log(title = "价格管理列表", businessType = BusinessType.OTHER)
     public TableDataInfo list(TFixPrice tFixPrice) {
         startPage();
         List<TFixPrice> tFixPrices = itFixPriceService.list(tFixPrice);
@@ -33,7 +34,7 @@ public class TFixPriceController extends BaseController {
     }
 
     @PreAuthorize("@ss.hasAnyPermi('restaurant:fixPrice:add')")
-    @Log(title = "价格管理", businessType = BusinessType.INSERT)
+    @Log(title = "价格管理添加", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     public AjaxResult add(@Validated @RequestBody TFixPrice tFixPrice) {
         AjaxResult ajax = AjaxResult.success();
@@ -51,6 +52,7 @@ public class TFixPriceController extends BaseController {
 
     @PreAuthorize("@ss.hasAnyPermi('restaurant:fixPrice:edit')")
     @PostMapping("/edit")
+    @Log(title = "价格管理修改", businessType = BusinessType.UPDATE)
     public AjaxResult edit(@RequestBody TFixPrice tFixPrice){
         AjaxResult ajax = AjaxResult.success();
         ajax.put("data",itFixPriceService.edit(tFixPrice));
@@ -59,6 +61,7 @@ public class TFixPriceController extends BaseController {
 
     @PreAuthorize("@ss.hasAnyPermi('restaurant:fixPrice:remove')")
     @PostMapping("/remove")
+    @Log(title = "价格管理删除", businessType = BusinessType.DELETE)
     public AjaxResult remove(@RequestBody TFixPrice tFixPrice){
         AjaxResult ajax = AjaxResult.success();
         ajax.put("data",itFixPriceService.remove(tFixPrice));

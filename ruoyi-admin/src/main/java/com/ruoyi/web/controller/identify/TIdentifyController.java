@@ -1,7 +1,9 @@
 package com.ruoyi.web.controller.identify;
 
+import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.framework.web.domain.server.Sys;
 import com.ruoyi.system.domain.TBase64Info;
 import com.ruoyi.system.domain.TFixPrice;
@@ -39,25 +41,10 @@ public class TIdentifyController extends BaseController {
     @Autowired
     private ITSalestableService itSalestableService;
 
-//    @PreAuthorize("@ss.hasPermi('identify:identify:list')")
-//    @GetMapping("/list")
-//    public int list(){
-//        System.out.println("111111");
-//        Test111 test111 = new Test111();
-//        test111.setTest("test");
-//        String url = "http://127.0.0.1:5555/test";
-//        ResponseEntity<String> responseEntity = restTemplate.postForEntity(url,test111,String.class);
-//        String a = responseEntity.getBody();
-//        System.out.println(a);
-//        uploadFile("/Users/shencheng/Pictures/006.jpg");
-//        startPage();
-//        List<TMenu> tMenus = itMenuService.selectTMenuList(tMenu);
-//        return 1;
-//    }
-
 
     @PreAuthorize("@ss.hasAnyPermi('identify:identify:add')")
     @PostMapping("/addList")
+    @Log(title = "销售表添加", businessType = BusinessType.INSERT)
     public AjaxResult addList(@RequestBody List<TSalestable> tSalestables) {
         AjaxResult ajax = AjaxResult.success();
         ajax.put("data",itSalestableService.addList(tSalestables));
@@ -66,6 +53,7 @@ public class TIdentifyController extends BaseController {
 
     @PreAuthorize("@ss.hasAnyPermi('identify:identify:upload')")
     @PostMapping("/upload")
+    @Log(title = "识别图片", businessType = BusinessType.IMPORT)
     public AjaxResult upload(@RequestBody TBase64Info tBase64Info) {
         AjaxResult ajax = AjaxResult.success();
 //        String url = "http://119.45.195.240:5555/upload";

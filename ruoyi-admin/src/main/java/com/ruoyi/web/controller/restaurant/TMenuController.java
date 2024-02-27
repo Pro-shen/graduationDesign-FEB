@@ -27,6 +27,7 @@ public class TMenuController extends BaseController {
 
     @PreAuthorize("@ss.hasPermi('restaurant:menu:list')")
     @GetMapping("/list")
+    @Log(title = "菜单查询", businessType = BusinessType.OTHER)
     public TableDataInfo list(TMenu tMenu){
         startPage();
         List<TMenu> tMenus = itMenuService.selectTMenuList(tMenu);
@@ -34,7 +35,7 @@ public class TMenuController extends BaseController {
     }
 
     @PreAuthorize("@ss.hasAnyPermi('restaurant:menu:listTree')")
-    @Log(title = "菜单树查询", businessType = BusinessType.INSERT)
+    @Log(title = "菜单树查询", businessType = BusinessType.OTHER)
     @PostMapping("/listTree")
     public AjaxResult listTree(@Validated @RequestBody List<TFixPrice> tFixPrices){
         AjaxResult ajax = new AjaxResult();
@@ -60,6 +61,7 @@ public class TMenuController extends BaseController {
     }
 
     @PreAuthorize("@ss.hasAnyPermi('restaurant:menu:edit')")
+    @Log(title = "菜单修改", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     public AjaxResult edit(@RequestBody TMenu tMenu){
         AjaxResult ajax = AjaxResult.success();
@@ -68,6 +70,7 @@ public class TMenuController extends BaseController {
     }
 
     @PreAuthorize("@ss.hasAnyPermi('restaurant:menu:remove')")
+    @Log(title = "菜单删除", businessType = BusinessType.DELETE)
     @PostMapping("/remove")
     public AjaxResult remove(@RequestBody TMenu tMenu){
         AjaxResult ajax = AjaxResult.success();

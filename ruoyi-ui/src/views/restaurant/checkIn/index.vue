@@ -33,7 +33,6 @@
 </template>
   
 <script>
-import Cookies from "js-cookie";
 import { add, list } from "@/api/restaurant/checkIn"
 var time
 export default {
@@ -52,7 +51,7 @@ export default {
       total: 0,
       queryParams: {
         createTime: new Date().getHours(),
-        userName: Cookies.get("username"),
+        userName: window.sessionStorage.getItem("username"),
         tenantId: 1,
         pageNum: 1,
         pageSize: 10,
@@ -84,7 +83,6 @@ export default {
     getList() {
       this.loading = true;
       list(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
-        console.log(response)
         this.tCheckInList = response.rows
         this.loading = false
         this.total = response.total
@@ -113,9 +111,9 @@ export default {
       if (timeState == 2) {
         this.$modal.msgError("未到打卡时间")
       } else {
-        this.form.userName = Cookies.get("username"),
-          this.form.attendanceType = timeState,
-          this.form.isState = 1
+        this.form.userName = window.sessionStorage.getItem("username")
+        this.form.attendanceType = timeState
+        this.form.isState = 1
         add(this.form).then(res => {
           if (res.data == -1) {
             this.$modal.msgError("请勿重复打卡")
