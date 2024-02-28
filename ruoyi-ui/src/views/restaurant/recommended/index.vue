@@ -104,9 +104,8 @@
 </template>
   
 <script>
-import { list, add, selectTSalestableListById, edit, remove, recommend, timeTasks } from "@/api/restaurant/recommended"
-import { listPrice } from "@/api/restaurant/fixPrice"
-import { listMenuTree } from "@/api/restaurant/menu"
+import { list, add, selectTSalestableListById, edit, remove, recommend, timeTasks ,listMenuTree,listPrice} from "@/api/restaurant/recommended"
+// import { listPrice } from "@/api/restaurant/fixPrice"
 export default {
   dicts: ['t_plate_color'],
   data() {

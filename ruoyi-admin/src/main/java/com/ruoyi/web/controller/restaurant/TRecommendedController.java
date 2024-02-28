@@ -6,9 +6,12 @@ import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.poi.ExcelUtil;
+import com.ruoyi.system.domain.TFixPrice;
 import com.ruoyi.system.domain.TMenu;
 import com.ruoyi.system.domain.TPayroll;
 import com.ruoyi.system.domain.TSalestable;
+import com.ruoyi.system.service.ITFixPriceService;
+import com.ruoyi.system.service.ITMenuService;
 import com.ruoyi.system.service.ITSalestableService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -24,6 +27,12 @@ public class TRecommendedController extends BaseController {
 
     @Autowired
     private ITSalestableService itSalestableService;
+
+    @Autowired
+    private ITMenuService itMenuService;
+
+    @Autowired
+    private ITFixPriceService itFixPriceService;
 
     @PreAuthorize("@ss.hasPermi('restaurant:recommended:list')")
     @Log(title = "进菜管理查询", businessType = BusinessType.OTHER)
@@ -98,6 +107,24 @@ public class TRecommendedController extends BaseController {
         AjaxResult ajax = new AjaxResult();
         ajax.put("data",itSalestableService.dayPayrollCountParams());
         return ajax;
+    }
+
+    @PreAuthorize("@ss.hasAnyPermi('restaurant:recommended:listTree')")
+    @Log(title = "菜单树查询", businessType = BusinessType.OTHER)
+    @PostMapping("/listTree")
+    public AjaxResult listTree(@Validated @RequestBody List<TFixPrice> tFixPrices){
+        AjaxResult ajax = new AjaxResult();
+        ajax.put("data",itMenuService.listTree(tFixPrices));
+        return ajax;
+    }
+
+    @PreAuthorize("@ss.hasPermi('restaurant:recommended:listTree')")
+    @GetMapping("/listPrice")
+    @Log(title = "价格管理列表", businessType = BusinessType.OTHER)
+    public TableDataInfo list(TFixPrice tFixPrice) {
+        startPage();
+        List<TFixPrice> tFixPrices = itFixPriceService.list(tFixPrice);
+        return getDataTable(tFixPrices);
     }
 
 }

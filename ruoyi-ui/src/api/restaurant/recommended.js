@@ -53,3 +53,19 @@ export function timeTasks() {
     method: "post",
   });
 }
+
+export function listMenuTree(data) {
+  return request({
+    url: "/restaurant/recommended/listTree",
+    method: "post",
+    data: data,
+  });
+}
+
+export function listPrice(query) {
+  return request({
+    url: "/restaurant/recommended/listPrice",
+    method: "get",
+    params: query,
+  });
+}

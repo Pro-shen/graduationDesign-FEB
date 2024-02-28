@@ -3,11 +3,14 @@ package com.ruoyi.web.controller.identify;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.framework.web.domain.server.Sys;
 import com.ruoyi.system.domain.TBase64Info;
 import com.ruoyi.system.domain.TFixPrice;
 import com.ruoyi.system.domain.TSalestable;
+import com.ruoyi.system.service.ITFixPriceService;
+import com.ruoyi.system.service.ITMenuService;
 import com.ruoyi.system.service.ITSalestableService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -19,6 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -39,7 +43,13 @@ public class TIdentifyController extends BaseController {
     private RestTemplate restTemplate;
 
     @Autowired
+    private ITMenuService itMenuService;
+
+    @Autowired
     private ITSalestableService itSalestableService;
+
+    @Autowired
+    private ITFixPriceService itFixPriceService;
 
 
     @PreAuthorize("@ss.hasAnyPermi('identify:identify:add')")
@@ -62,6 +72,25 @@ public class TIdentifyController extends BaseController {
         ajax.put("data", responseEntity);
         return ajax;
     }
+
+    @PreAuthorize("@ss.hasAnyPermi('restaurant:identify:listTree')")
+    @Log(title = "菜单树查询", businessType = BusinessType.OTHER)
+    @PostMapping("/listTree")
+    public AjaxResult listTree(@Validated @RequestBody List<TFixPrice> tFixPrices){
+        AjaxResult ajax = new AjaxResult();
+        ajax.put("data",itMenuService.listTree(tFixPrices));
+        return ajax;
+    }
+
+    @PreAuthorize("@ss.hasPermi('restaurant:identify:listTree')")
+    @GetMapping("/listPrice")
+    @Log(title = "价格管理列表", businessType = BusinessType.OTHER)
+    public TableDataInfo list(TFixPrice tFixPrice) {
+        startPage();
+        List<TFixPrice> tFixPrices = itFixPriceService.list(tFixPrice);
+        return getDataTable(tFixPrices);
+    }
+
 
     public String uploadFile(String filePath) {
 //        String requestUrl = "http://119.45.195.240:5555/image";

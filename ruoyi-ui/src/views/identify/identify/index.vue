@@ -82,9 +82,8 @@
 </template>
 
 <script>
-import { upload, addList } from "@/api/identify/identify"
-import { listPrice } from "@/api/restaurant/fixPrice"
-import { listMenuTree } from "@/api/restaurant/menu"
+import { upload, addList, listMenuTree, listPrice } from "@/api/identify/identify"
+// import { listPrice } from "@/api/restaurant/fixPrice"
 export default {
   dicts: ['t_plate_color'],
   data() {
@@ -296,7 +295,7 @@ export default {
             number: this.formData[i].number,
             dishId: this.formData[i].selector[1],
             isState: 1,
-            createTime:date
+            createTime: date
           })
           flag = 1
         }

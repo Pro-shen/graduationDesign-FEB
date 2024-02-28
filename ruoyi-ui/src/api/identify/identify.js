@@ -23,3 +23,19 @@ export function addList(data) {
     data: data,
   });
 }
+
+export function listMenuTree(data) {
+  return request({
+    url: "/identify/identify/listTree",
+    method: "post",
+    data: data,
+  });
+}
+
+export function listPrice(query) {
+  return request({
+    url: "/identify/identify/listPrice",
+    method: "get",
+    params: query,
+  });
+}
