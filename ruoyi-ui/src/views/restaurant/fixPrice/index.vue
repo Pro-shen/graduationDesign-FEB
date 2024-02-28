@@ -141,7 +141,6 @@ export default {
             })
           } else {
             edit(this.form).then(res => {
-              console.log(res.data)
               if (res.data == 0) {
                 this.$modal.msgError("修改失败")
               } else if (res.data == 1) {

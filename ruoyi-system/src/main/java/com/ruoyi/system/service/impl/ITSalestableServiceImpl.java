@@ -13,10 +13,7 @@ import com.ruoyi.system.service.ITSalestableService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 public class ITSalestableServiceImpl implements ITSalestableService {
@@ -42,7 +39,148 @@ public class ITSalestableServiceImpl implements ITSalestableService {
     @Override
     @DataScope(deptAlias = "ts")
     public List<TSalestable> list(TSalestable tSalestable) {
-        return tSalestableMapper.list(tSalestable);
+        List<TSalestable> tSalestables = tSalestableMapper.list(tSalestable);
+        for (int i = 0; i < tSalestables.size(); i++) {
+            tSalestables.get(i).setDishProfitTotal(tSalestables.get(i).getNumber() * tSalestables.get(i).getDishProfit());
+        }
+        return tSalestables;
+    }
+
+    @Override
+    @DataScope(deptAlias = "ts")
+    public List<TSalestable> listExport(TSalestable tSalestable) {
+        List<TSalestable> tSalestables = tSalestableMapper.list(tSalestable);
+        List<TSalestable> tSalestableList = new ArrayList<>();
+        for (int i = 0; i < tSalestables.size(); i++) {
+            int flag = 0;
+            for (int j = 0; j < tSalestableList.size(); j++) {
+                if (Objects.equals(tSalestables.get(i).getDishId(), tSalestableList.get(j).getDishId())) {
+                    tSalestableList.get(j).setNumber(tSalestableList.get(j).getNumber() + tSalestables.get(i).getNumber());
+                    flag = 1;
+                    break;
+                }
+            }
+            if (flag == 0) {
+                TSalestable tSalestable1 = new TSalestable();
+                tSalestable1.setDishId(tSalestables.get(i).getDishId());
+                tSalestable1.setNumber(tSalestables.get(i).getNumber());
+                tSalestable1.setDishName(tSalestables.get(i).getDishName());
+                tSalestable1.setCreateTime(tSalestables.get(i).getCreateTime());
+                tSalestable1.setUpdateTime(tSalestables.get(i).getUpdateTime());
+                tSalestable1.setDishProfit(tSalestables.get(i).getDishProfit());
+                tSalestableList.add(tSalestable1);
+            }
+        }
+        for (int i = 0; i < tSalestableList.size(); i++) {
+            tSalestableList.get(i).setDishProfitTotal(tSalestableList.get(i).getNumber() * tSalestableList.get(i).getDishProfit());
+        }
+        return tSalestableList;
+    }
+
+    @Override
+    public List<TSalestable> listExportMonth(TSalestable tSalestable) {
+        TSalestable tSalestable2 = new TSalestable();
+        Map<String, Object> params = new HashMap<>();
+        params.put("beginTime", DateUtils.getFirstDay());
+        params.put("endTime", DateUtils.getLastDay());
+        tSalestable2.setParams(params);
+        List<TSalestable> tSalestables = tSalestableMapper.list(tSalestable2);
+        List<TSalestable> tSalestableList = new ArrayList<>();
+        for (int i = 0; i < tSalestables.size(); i++) {
+            int flag = 0;
+            for (int j = 0; j < tSalestableList.size(); j++) {
+                if (Objects.equals(tSalestables.get(i).getDishId(), tSalestableList.get(j).getDishId())) {
+                    tSalestableList.get(j).setNumber(tSalestableList.get(j).getNumber() + tSalestables.get(i).getNumber());
+                    flag = 1;
+                    break;
+                }
+            }
+            if (flag == 0) {
+                TSalestable tSalestable1 = new TSalestable();
+                tSalestable1.setDishId(tSalestables.get(i).getDishId());
+                tSalestable1.setNumber(tSalestables.get(i).getNumber());
+                tSalestable1.setDishName(tSalestables.get(i).getDishName());
+                tSalestable1.setCreateTime(tSalestables.get(i).getCreateTime());
+                tSalestable1.setUpdateTime(tSalestables.get(i).getUpdateTime());
+                tSalestable1.setDishProfit(tSalestables.get(i).getDishProfit());
+                tSalestableList.add(tSalestable1);
+            }
+        }
+        for (int i = 0; i < tSalestableList.size(); i++) {
+            tSalestableList.get(i).setDishProfitTotal(tSalestableList.get(i).getNumber() * tSalestableList.get(i).getDishProfit());
+        }
+        return tSalestableList;
+    }
+
+    @Override
+    public List<TSalestable> listExportQuarter(TSalestable tSalestable) {
+        TSalestable tSalestable2 = new TSalestable();
+        Map<String, Object> params = new HashMap<>();
+        params.put("beginTime", DateUtils.getStartDayOfQuarter());
+        params.put("endTime", DateUtils.getLastDayOfQuarter());
+        tSalestable2.setParams(params);
+        List<TSalestable> tSalestables = tSalestableMapper.list(tSalestable2);
+        List<TSalestable> tSalestableList = new ArrayList<>();
+        for (int i = 0; i < tSalestables.size(); i++) {
+            int flag = 0;
+            for (int j = 0; j < tSalestableList.size(); j++) {
+                if (Objects.equals(tSalestables.get(i).getDishId(), tSalestableList.get(j).getDishId())) {
+                    tSalestableList.get(j).setNumber(tSalestableList.get(j).getNumber() + tSalestables.get(i).getNumber());
+                    flag = 1;
+                    break;
+                }
+            }
+            if (flag == 0) {
+                TSalestable tSalestable1 = new TSalestable();
+                tSalestable1.setDishId(tSalestables.get(i).getDishId());
+                tSalestable1.setNumber(tSalestables.get(i).getNumber());
+                tSalestable1.setDishName(tSalestables.get(i).getDishName());
+                tSalestable1.setCreateTime(tSalestables.get(i).getCreateTime());
+                tSalestable1.setUpdateTime(tSalestables.get(i).getUpdateTime());
+                tSalestable1.setDishProfit(tSalestables.get(i).getDishProfit());
+                tSalestableList.add(tSalestable1);
+            }
+        }
+        for (int i = 0; i < tSalestableList.size(); i++) {
+            tSalestableList.get(i).setDishProfitTotal(tSalestableList.get(i).getNumber() * tSalestableList.get(i).getDishProfit());
+        }
+        return tSalestableList;
+    }
+
+    @Override
+    public List<TSalestable> listExportYear(TSalestable tSalestable) {
+        TSalestable tSalestable2 = new TSalestable();
+        Map<String, Object> params = new HashMap<>();
+        System.out.println(DateUtils.getStartDayOfYear() + "    " + DateUtils.getLastDayOfYear());
+        params.put("beginTime", DateUtils.getStartDayOfYear());
+        params.put("endTime", DateUtils.getLastDayOfYear());
+        tSalestable2.setParams(params);
+        List<TSalestable> tSalestables = tSalestableMapper.list(tSalestable2);
+        List<TSalestable> tSalestableList = new ArrayList<>();
+        for (int i = 0; i < tSalestables.size(); i++) {
+            int flag = 0;
+            for (int j = 0; j < tSalestableList.size(); j++) {
+                if (Objects.equals(tSalestables.get(i).getDishId(), tSalestableList.get(j).getDishId())) {
+                    tSalestableList.get(j).setNumber(tSalestableList.get(j).getNumber() + tSalestables.get(i).getNumber());
+                    flag = 1;
+                    break;
+                }
+            }
+            if (flag == 0) {
+                TSalestable tSalestable1 = new TSalestable();
+                tSalestable1.setDishId(tSalestables.get(i).getDishId());
+                tSalestable1.setNumber(tSalestables.get(i).getNumber());
+                tSalestable1.setDishName(tSalestables.get(i).getDishName());
+                tSalestable1.setCreateTime(tSalestables.get(i).getCreateTime());
+                tSalestable1.setUpdateTime(tSalestables.get(i).getUpdateTime());
+                tSalestable1.setDishProfit(tSalestables.get(i).getDishProfit());
+                tSalestableList.add(tSalestable1);
+            }
+        }
+        for (int i = 0; i < tSalestableList.size(); i++) {
+            tSalestableList.get(i).setDishProfitTotal(tSalestableList.get(i).getNumber() * tSalestableList.get(i).getDishProfit());
+        }
+        return tSalestableList;
     }
 
     @Override
@@ -66,8 +204,20 @@ public class ITSalestableServiceImpl implements ITSalestableService {
                     tSalestableList.get(i).setPriceId(tFixPrices.get(0).getId());
                     List<TSalestable> tSalestables = tSalestableMapper.selectListByDishNameAndDate(tSalestableList.get(i));
                     if (tSalestables.size() == 0) {
+                        TMenu tMenu = new TMenu();
+                        tMenu.setDishName(tSalestableList.get(i).getDishName());
+                        List<TMenu> tMenus1 = tMenuMapper.selectTMenuList(tMenu);
+                        if (tMenus1.size() > 0) {
+                            tSalestableList.get(i).setDishProfit(tMenus1.get(0).getDishProfit());
+                        }
                         res = tSalestableMapper.add(tSalestableList.get(i));
                     } else {
+                        TMenu tMenu = new TMenu();
+                        tMenu.setDishName(tSalestableList.get(i).getDishName());
+                        List<TMenu> tMenus1 = tMenuMapper.selectTMenuList(tMenu);
+                        if (tMenus1.size() > 0) {
+                            tSalestableList.get(i).setDishProfit(tMenus1.get(0).getDishProfit());
+                        }
                         tSalestableList.get(i).setId(tSalestables.get(0).getId());
                         tSalestableList.get(i).setNumber(tSalestableList.get(i).getNumber() + tSalestables.get(0).getNumber());
                         res = tSalestableMapper.update(tSalestableList.get(i));
@@ -89,6 +239,12 @@ public class ITSalestableServiceImpl implements ITSalestableService {
     @DataScope(deptAlias = "ts")
     public int add(TSalestable tSalestable) {
         List<TSalestable> tSalestables = tSalestableMapper.selectListByDishNameAndDate(tSalestable);
+        TMenu tMenu = new TMenu();
+        tMenu.setDishName(tSalestable.getDishName());
+        List<TMenu> tMenus = tMenuMapper.selectTMenuList(tMenu);
+        if (tMenus.size() > 0) {
+            tSalestable.setDishProfit(tMenus.get(0).getDishProfit());
+        }
         if (tSalestables.size() > 0) {
             return -1;
         } else {
@@ -99,6 +255,12 @@ public class ITSalestableServiceImpl implements ITSalestableService {
     @Override
     public int edit(TSalestable tSalestable) {
         List<TSalestable> tSalestables = tSalestableMapper.selectListByDishNameAndDate(tSalestable);
+        TMenu tMenu = new TMenu();
+        tMenu.setDishName(tSalestable.getDishName());
+        List<TMenu> tMenus = tMenuMapper.selectTMenuList(tMenu);
+        if (tMenus.size() > 0) {
+            tSalestable.setDishProfit(tMenus.get(0).getDishProfit());
+        }
         if (tSalestables.size() > 0 && !tSalestables.get(0).getId().equals(tSalestable.getId())) {
             return -1;
         } else {
@@ -189,7 +351,7 @@ public class ITSalestableServiceImpl implements ITSalestableService {
                     tAttendancesheets1.add(tAttendancesheet);
                 }
             }
-            if(tAttendancesheets1.size() == 0){
+            if (tAttendancesheets1.size() == 0) {
                 return -2;
             }
             int res = 0;

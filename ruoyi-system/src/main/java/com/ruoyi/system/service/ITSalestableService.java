@@ -8,6 +8,14 @@ public interface ITSalestableService {
 
     public List<TSalestable> list(TSalestable tSalestable);
 
+    public List<TSalestable> listExport(TSalestable tSalestable);
+
+    public List<TSalestable> listExportMonth(TSalestable tSalestable);
+
+    public List<TSalestable> listExportQuarter(TSalestable tSalestable);
+
+    public List<TSalestable> listExportYear(TSalestable tSalestable);
+
     public List<TSalestable> selectTSalestableListById(Long id);
 
     public int addList(List<TSalestable> tSalestableList);

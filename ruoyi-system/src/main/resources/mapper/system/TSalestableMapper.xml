@@ -131,6 +131,7 @@
         <set>
             <if test="priceId != null">ts.price_id = #{priceId},</if>
             <if test="number != null">ts.number = #{number},</if>
+            <if test="dishProfit != null">ts.dish_profit = #{dishProfit},</if>
             ts.update_time = sysdate()
         </set>
         where ts.id = #{id}
@@ -143,6 +144,7 @@
             <if test="number != null">ts.number = #{number},</if>
             <if test="dishName != null">ts.dish_name = #{dishName},</if>
             <if test="createTime != null">ts.create_time = #{createTime},</if>
+            <if test="dishProfit != null">ts.dish_profit = #{dishProfit},</if>
             ts.update_time = sysdate()
         </set>
         where ts.id = #{id}

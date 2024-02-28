@@ -39,7 +39,14 @@ public class TSalestable extends BaseEntity {
     /**
      * 菜品盈利
      */
+    @Excel(name = "菜品利润")
     private Double dishProfit;
+
+    /**
+     * 菜品总利润
+     */
+    @Excel(name = "菜品总利润")
+    private Double dishProfitTotal;
 
     /**
      * 价格id
@@ -129,6 +136,14 @@ public class TSalestable extends BaseEntity {
 
     public void setDishProfit(Double dishProfit) {
         this.dishProfit = dishProfit;
+    }
+
+    public Double getDishProfitTotal() {
+        return dishProfitTotal;
+    }
+
+    public void setDishProfitTotal(Double dishProfitTotal) {
+        this.dishProfitTotal = dishProfitTotal;
     }
 
     public Long getPriceId() {

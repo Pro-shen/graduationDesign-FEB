@@ -44,8 +44,9 @@
           <dict-tag :options="dict.type.t_plate_color" :value="scope.row.plateColor" />
         </template>
       </el-table-column>
-      <el-table-column prop="dishStock" label="菜品存量" width="170"></el-table-column>
+      <!-- <el-table-column prop="dishStock" label="菜品存量" width="170"></el-table-column> -->
       <!-- <el-table-column prop="dishUsed" label="菜品销量" width="170"></el-table-column> -->
+      <el-table-column prop="dishProfit" label="菜品利润" width="170"></el-table-column>
       <el-table-column prop="createTime" label="创建时间" width="170"></el-table-column>
       <el-table-column prop="updateTime" label="更新时间" width="170"></el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -73,8 +74,8 @@
               :value="Number(dict.value)"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="菜品存量" prop="dishStock">
-          <el-input-number v-model="form.dishStock" controls-position="right" :min="0" />
+        <el-form-item label="菜品利润" prop="dishProfit">
+          <el-input-number v-model="form.dishProfit" controls-position="right" :min="0" :precision='1'/>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -121,14 +122,17 @@ export default {
         plateColor: [
           { required: true, message: "盘子颜色不能为空", trigger: "blur" }
         ],
-        dishStock: [
-          { required: true, message: "请输入正确的菜品存量(份)", trigger: "blur", pattern: /^-?[1-9]\d*$/, }
-        ]
+        dishProfit: [
+          { required: true, message: "菜品利润不能为空", trigger: "blur" }
+        ],
+        // dishStock: [
+        //   { required: true, message: "请输入正确的菜品存量(份)", trigger: "blur", pattern: /^-?[1-9]\d*$/, }
+        // ]
       }
     }
   },
   created() {
-    this.getList();
+    this.getList()
   },
   methods: {
     getList() {

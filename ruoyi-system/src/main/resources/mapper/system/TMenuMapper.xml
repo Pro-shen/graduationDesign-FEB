@@ -63,6 +63,7 @@
         <if test="dishName != null and dishName != ''">dish_name,</if>
         <if test="isState != null">is_state,</if>
         <if test="dishUsed != null">dish_used,</if>
+        <if test="dishProfit != null">dish_profit,</if>
         create_time
         )values(
         <if test="id != null and id != ''">#{id},</if>
@@ -71,6 +72,7 @@
         <if test="dishName != null and dishName != ''">#{dishName},</if>
         <if test="isState != null">#{isState},</if>
         <if test="dishUsed != null">#{dishUsed},</if>
+        <if test="dishProfit != null">#{dishProfit},</if>
         sysdate()
         )
     </insert>
@@ -81,6 +83,7 @@
             <if test="dishName !=null and dishName !=''">dish_name = #{dishName},</if>
             <if test="plateColor != null">plate_color = #{plateColor},</if>
             <if test="dishStock != null">dish_stock = #{dishStock},</if>
+            <if test="dishProfit != null">dish_profit = #{dishProfit},</if>
             update_time = sysdate()
         </set>
         where id = #{id}
