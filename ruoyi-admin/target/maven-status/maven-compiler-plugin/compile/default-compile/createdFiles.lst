@@ -8,6 +8,7 @@ com/ruoyi/web/controller/common/CommonController.class
 com/ruoyi/web/core/config/SwaggerConfig.class
 com/ruoyi/web/controller/tool/TestController.class
 com/ruoyi/web/controller/monitor/SysUserOnlineController.class
+com/ruoyi/web/controller/restaurant/TSaletableController.class
 com/ruoyi/web/controller/monitor/ServerController.class
 com/ruoyi/web/controller/identify/TIdentifyController.class
 com/ruoyi/web/controller/monitor/SysLogininforController.class

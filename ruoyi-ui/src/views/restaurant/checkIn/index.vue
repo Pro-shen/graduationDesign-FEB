@@ -33,6 +33,7 @@
 </template>
   
 <script>
+import Cookies from "js-cookie";
 import { add, list } from "@/api/restaurant/checkIn"
 var time
 export default {
@@ -51,7 +52,7 @@ export default {
       total: 0,
       queryParams: {
         createTime: new Date().getHours(),
-        userName: window.sessionStorage.getItem("username"),
+        userName: Cookies.get("username"),
         tenantId: 1,
         pageNum: 1,
         pageSize: 10,
@@ -111,7 +112,7 @@ export default {
       if (timeState == 2) {
         this.$modal.msgError("未到打卡时间")
       } else {
-        this.form.userName = window.sessionStorage.getItem("username")
+        this.form.userName = Cookies.get("username")
         this.form.attendanceType = timeState
         this.form.isState = 1
         add(this.form).then(res => {
