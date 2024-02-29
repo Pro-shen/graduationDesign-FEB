@@ -34,7 +34,7 @@
             <if test="attendanceType != null">
                 AND ta.attendance_type = #{attendanceType}
             </if>
-            AND ta.create_time = sysdate()
+            AND ta.create_time = #{createTime}
         </where>
     </select>
 

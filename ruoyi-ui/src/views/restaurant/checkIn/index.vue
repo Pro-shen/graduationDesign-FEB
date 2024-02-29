@@ -115,6 +115,7 @@ export default {
         this.form.userName = Cookies.get("username")
         this.form.attendanceType = timeState
         this.form.isState = 1
+        this.form.createTime = new Date()
         add(this.form).then(res => {
           if (res.data == -1) {
             this.$modal.msgError("请勿重复打卡")
