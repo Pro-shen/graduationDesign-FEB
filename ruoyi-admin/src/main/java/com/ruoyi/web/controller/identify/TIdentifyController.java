@@ -68,6 +68,8 @@ public class TIdentifyController extends BaseController {
         AjaxResult ajax = AjaxResult.success();
 //        String url = "http://119.45.195.240:5555/upload";
         String url = "http://127.0.0.1:5555/upload";
+//        String url = "http://119.45.195.240:7777/upload";
+//        String url = "http://127.0.0.1:7777/upload";
         ResponseEntity<TBase64Info> responseEntity = restTemplate.postForEntity(url, tBase64Info, TBase64Info.class);
         ajax.put("data", responseEntity);
         return ajax;
@@ -93,8 +95,8 @@ public class TIdentifyController extends BaseController {
 
 
     public String uploadFile(String filePath) {
-//        String requestUrl = "http://119.45.195.240:5555/image";
-        String requestUrl = "http://127.0.0.1:5555/image";
+        String requestUrl = "http://119.45.195.240:5555/image";
+//        String requestUrl = "http://127.0.0.1:5555/image";
         File file = new File(filePath);
         //设置请求头
         HttpHeaders headers = new HttpHeaders();

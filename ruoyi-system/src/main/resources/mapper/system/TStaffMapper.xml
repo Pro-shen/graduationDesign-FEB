@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.TStaffMapper">
+
+    <resultMap id="TUserRestaurantResult" type="TUserRestaurant">
+        <id property="id" column="id"/>
+        <result property="restaurantId" column="restaurant_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="isState" column="is_state"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createId" column="create_id"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="updateId" column="update_id"/>
+        <result property="tenantId" column="tenant_id"/>
+    </resultMap>
+
+    <sql id="selectTUserRestaurantVo">
+        select tur.id,tur.restaurant_id,tur.user_id,tur.is_state,tur.create_time,
+               tur.create_id,tur.update_time,tur.update_id,tur.tenant_id
+        from t_user_restaurant tur
+    </sql>
+
+    <select id="selectTUserRestaurant" parameterType="TUserRestaurant" resultMap="TUserRestaurantResult">
+        <include refid="selectTUserRestaurantVo"/>
+    </select>
+
+    <insert id="add" parameterType="TUserRestaurant" useGeneratedKeys="true" keyProperty="id">
+        insert into t_user_restaurant(
+        <if test="restaurantId != null">restaurant_id,</if>
+        <if test="userId != null">user_id,</if>
+        <if test="isState != null">is_state,</if>
+        create_time
+        )values (
+        <if test="restaurantId != null">#{restaurantId},</if>
+        <if test="userId != null">#{userId},</if>
+        <if test="isState != null">#{isState},</if>
+        sysDate()
+        )
+    </insert>
+
+</mapper>
