@@ -85,7 +85,8 @@
     </el-dialog>
 
     <el-dialog title="进菜推荐" :visible.sync="recommendOpen" width="500px" append-to-body>
-      <div style="width: 100%;display: flex;align-items: center;justify-content: center;font-size: 40;font-weight: 500;">
+      <div
+        style="width: 100%;display: flex;align-items: center;justify-content: center;font-size: 40;font-weight: 500;">
         菜品销量统计表</div>
       <el-table :data="dialogDishesList" row-key="id" :default-expand-all="isExpandAll"
         :tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
@@ -96,15 +97,16 @@
         <el-button type="primary" @click="recommendSubmitForm">确 定</el-button>
         <el-button @click="recommendCancel">取 消</el-button>
       </div>
-      <div style="width: 100%;display: flex;align-items: center;justify-content: center;font-size: 40;font-weight: 500;">
+      <div
+        style="width: 100%;display: flex;align-items: center;justify-content: center;font-size: 40;font-weight: 500;">
         推荐进菜的菜品为:{{ recommendDish }}</div>
     </el-dialog>
 
   </div>
 </template>
-  
+
 <script>
-import { list, add, selectTSalestableListById, edit, remove, recommend, timeTasks ,listMenuTree,listPrice} from "@/api/restaurant/recommended"
+import { list, add, selectTSalestableListById, edit, remove, recommend, timeTasks, listMenuTree, listPrice } from "@/api/restaurant/recommended"
 // import { listPrice } from "@/api/restaurant/fixPrice"
 export default {
   dicts: ['t_plate_color'],
@@ -205,10 +207,17 @@ export default {
             if (this.add) {
               var dishName = undefined
               if (this.form.selector.length > 0) {
-                for (var i = 0; i < this.form.options[this.form.selector[0]].tMenus.length; i++) {
-                  if (this.form.options[this.form.selector[0]].tMenus[i].id == this.form.selector[1]) {
-                    dishName = this.form.options[this.form.selector[0]].tMenus[i].dishName
-                    break
+                var flag = 0;
+                for (var i = 0; i < this.form.options.length; i++) {
+                  for (var j = 0; j < this.form.options[i].tMenus.length; j++) {
+                    if (flag == 1) {
+                      break
+                    }
+                    if (this.form.selector[1] == this.form.options[i].tMenus[j].id) {
+                      dishName = this.form.options[i].tMenus[j].dishName
+                      flag = 1
+                      break
+                    }
                   }
                 }
                 var dataform = {
@@ -230,10 +239,23 @@ export default {
                 })
               }
             } else {
-              for (var i = 0; i < this.form.options[this.form.selector[0]].tMenus.length; i++) {
-                if (this.form.options[this.form.selector[0]].tMenus[i].id == this.form.selector[1]) {
-                  dishName = this.form.options[this.form.selector[0]].tMenus[i].dishName
-                  break
+              // for (var i = 0; i < this.form.options[this.form.selector[0]].tMenus.length; i++) {
+              //   if (this.form.options[this.form.selector[0]].tMenus[i].id == this.form.selector[1]) {
+              //     dishName = this.form.options[this.form.selector[0]].tMenus[i].dishName
+              //     break
+              //   }
+              // }
+              var flag = 0;
+              for (var i = 0; i < this.form.options.length; i++) {
+                for (var j = 0; j < this.form.options[i].tMenus.length; j++) {
+                  if (flag == 1) {
+                    break
+                  }
+                  if (this.form.selector[1] == this.form.options[i].tMenus[j].id) {
+                    dishName = this.form.options[i].tMenus[j].dishName
+                    flag = 1
+                    break
+                  }
                 }
               }
               var dataform = {
@@ -284,7 +306,7 @@ export default {
         for (var i = 0; i < this.form.options.length; i++) {
           for (var j = 0; j < this.form.options[i].tMenus.length; j++) {
             if (this.form.options[i].tMenus[j].id == res.data[0].dishId) {
-              this.form.selector = [i, res.data[0].dishId]
+              this.form.selector = [this.form.options[i].tMenus[j].plateColor, res.data[0].dishId]
               break
             }
           }
@@ -410,5 +432,5 @@ export default {
   }
 }
 </script>
-  
+
 <style></style>
