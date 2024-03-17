@@ -36,13 +36,6 @@ public interface SysUserRoleMapper
     public int countUserRoleByRoleId(Long roleId);
 
     /**
-     * 通过角色id查询用户角色关系
-     * @param roleId
-     * @return
-     */
-    public List<SysUserRole> selectUserListByRoleId(Long roleId);
-
-    /**
      * 批量新增用户角色信息
      * 
      * @param userRoleList 用户角色列表

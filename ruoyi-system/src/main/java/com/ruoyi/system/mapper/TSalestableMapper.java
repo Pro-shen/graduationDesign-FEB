@@ -15,7 +15,7 @@ public interface TSalestableMapper {
 
     public List<TSalestable> selectListByDate(String createTime);
 
-//    public int addList(List<TSalestable> tSalestableList);
+    public int addList(List<TSalestable> tSalestableList);
 
     public int add(TSalestable tSalestable);
 

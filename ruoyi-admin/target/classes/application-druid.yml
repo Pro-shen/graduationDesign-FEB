@@ -6,12 +6,12 @@ spring:
         druid:
             # 主库数据源
             master:
-#                url: jdbc:mysql://127.0.0.1:3306/ry-vue?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
-#                username: root
-#                password:
-                url: jdbc:mysql://sh-cynosdbmysql-grp-goc8aw9g.sql.tencentcdb.com:22569/ry-vue?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+                url: jdbc:mysql://127.0.0.1:3306/ry-vue?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
                 username: root
-                password: SC020917sc
+                password:
+#                url: jdbc:mysql://sh-cynosdbmysql-grp-goc8aw9g.sql.tencentcdb.com:22569/ry-vue?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+#                username: root
+#                password: SC020917sc
 
             # 从库数据源
             slave:
