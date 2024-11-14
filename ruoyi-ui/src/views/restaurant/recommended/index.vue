@@ -239,12 +239,6 @@ export default {
                 })
               }
             } else {
-              // for (var i = 0; i < this.form.options[this.form.selector[0]].tMenus.length; i++) {
-              //   if (this.form.options[this.form.selector[0]].tMenus[i].id == this.form.selector[1]) {
-              //     dishName = this.form.options[this.form.selector[0]].tMenus[i].dishName
-              //     break
-              //   }
-              // }
               var flag = 0;
               for (var i = 0; i < this.form.options.length; i++) {
                 for (var j = 0; j < this.form.options[i].tMenus.length; j++) {

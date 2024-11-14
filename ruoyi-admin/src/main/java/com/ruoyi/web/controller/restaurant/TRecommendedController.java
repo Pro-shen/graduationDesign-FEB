@@ -99,7 +99,7 @@ public class TRecommendedController extends BaseController {
         util.exportExcel(response, list, "进菜管理表单");
     }
 
-    @Log(title = "月工资定时任务", businessType = BusinessType.OTHER)
+    @Log(title = "日工资定时任务", businessType = BusinessType.OTHER)
     @PreAuthorize("@ss.hasPermi('restaurant:recommended:timedTasks')")
     @PostMapping("/timedTasks")
     public AjaxResult timedTasks()

@@ -38,8 +38,6 @@ public class ITCheckInServiceImpl implements ITCheckInService {
     @Override
     @DataScope(deptAlias = "ta")
     public List<TAttendancesheet> list(TAttendancesheet tAttendancesheet) {
-        SysUser sysUser = sysUserMapper.selectUserByUserName(tAttendancesheet.getUserName());
-        tAttendancesheet.setUserId(sysUser.getUserId());
         List<TAttendancesheet> tAttendancesheets = tCheckInMapper.list(tAttendancesheet);
         return tAttendancesheets;
     }

@@ -24,6 +24,13 @@
         from t_attendancesheet ta
     </sql>
 
+    <sql id="selectTAttendancesheetVol">
+        select ta.id,ta.user_name,ta.user_id,ta.attendance_time,ta.attendance_type,ta.is_state,ta.create_time,
+               ta.create_id,ta.update_time,ta.update_id,ta.tenant_id
+        from t_attendancesheet ta
+        left join sys_user su on su.user_name = ta.user_name
+    </sql>
+
     <select id="selectTAttendancesheet" parameterType="TAttendancesheet" resultMap="TAttendancesheetResult">
         <include refid="selectTAttendancesheetVo"></include>
         <where>
@@ -39,12 +46,10 @@
     </select>
 
     <select id="list" parameterType="TAttendancesheet" resultMap="TAttendancesheetResult">
-        <include refid="selectTAttendancesheetVo"></include>
+        <include refid="selectTAttendancesheetVol"></include>
         <where>
             ta.is_state = 1
-            <if test="userId != null and userId != 0">
-                AND ta.user_id = #{userId}
-            </if>
+            AND su.user_name = #{userName}
             <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
                 AND ta.create_time &gt;= #{params.beginTime}
             </if>

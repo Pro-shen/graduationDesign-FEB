@@ -9,19 +9,22 @@
         <el-form-item>
           <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
           <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+          <el-button type="success" icon="el-icon-circle-check" size="mini" @click="checkInUp">上班打卡</el-button>
+          <el-button type="info" icon="el-icon-circle-check" size="mini" @click="checkInDown">下班打卡</el-button>
         </el-form-item>
       </el-form>
-      <el-table v-if="refreshTable" v-loading="loading" :data="tCheckInList" row-key="id"
+      <el-table v-if="refreshTable" v-loading="loading" :data="tCheckInList" row-key="id" style="overflow-y: auto;"
         :default-expand-all="isExpandAll" :tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
         <el-table-column prop="userName" label="打卡人" width="180" align="center"></el-table-column>
         <el-table-column prop="createTime" label="打卡时间" width="180" align="center"></el-table-column>
         <el-table-column label="打卡类型" class-name="small-padding fixed-width" align="center">
           <template slot-scope="scope">
             <dict-tag :options="dict.type.t_attendance_type" :value="scope.row.attendanceType
-              " />
+        " />
           </template>
         </el-table-column>
       </el-table>
+      
       <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
         @pagination="getList" />
     </div>
@@ -31,7 +34,7 @@
     </div>
   </div>
 </template>
-  
+
 <script>
 import Cookies from "js-cookie";
 import { add, list } from "@/api/restaurant/checkIn"
@@ -139,6 +142,38 @@ export default {
       this.resetForm("queryForm");
       this.queryParams.pageNum = 1;
       this.$refs.tables.sort(this.defaultSort.prop, this.defaultSort.order)
+    },
+    checkInUp() {
+      this.form.userName = Cookies.get("username")
+      this.form.attendanceType = 0
+      this.form.isState = 1
+      this.form.createTime = new Date()
+      add(this.form).then(res => {
+        if (res.data == -1) {
+          this.$modal.msgError("请勿重复打卡")
+        } else if (res.data == 0) {
+          this.$modal.msgSuccess("打卡失败，请重试")
+        } else if (res.data == 1) {
+          this.$modal.msgSuccess("打卡成功")
+          this.getList()
+        }
+      })
+    },
+    checkInDown() {
+      this.form.userName = Cookies.get("username")
+      this.form.attendanceType = 1
+      this.form.isState = 1
+      this.form.createTime = new Date()
+      add(this.form).then(res => {
+        if (res.data == -1) {
+          this.$modal.msgError("请勿重复打卡")
+        } else if (res.data == 0) {
+          this.$modal.msgSuccess("打卡失败，请重试")
+        } else if (res.data == 1) {
+          this.$modal.msgSuccess("打卡成功")
+          this.getList()
+        }
+      })
     }
   }
 }

@@ -1,4 +1,4 @@
-# 基于深度卷积神经网络的餐饮管理系统
+# 基于深度卷积神经网络的餐饮管理系统(前后端部分)
 
 ## 功能设计
 
@@ -99,7 +99,20 @@
 
 
 
-## 深度学习部分
+### t_restaurant(餐厅表)（弃用）
 
->深度学习部分使用yolov5开源项目，以yolov5项目为基础，添加了flask模块负责与外网通讯。
+>#id,餐厅名称，is_state，创建时间，创建人id，更新时间，更新人id，租户id
+>
+>| 表单 | id     | restaurant_name | is_state | create_time | create_id | update_time | update_id | tenant_id |
+>| ---- | ------ | --------------- | -------- | ----------- | --------- | ----------- | --------- | --------- |
+>| 参数 | Bigint | Varchar50       | Int      | Date        | Bigint    | Date        | Bigint    | Bigint    |
 
+
+
+### t_user_restaurant(用户餐厅关系表)（弃用）
+
+>#id，用户id，餐厅id，is_state，创建时间，创建人id，更新时间，更新人id，租户id
+>
+>| 表单 | id     | User_id | restaurant_id | is_state | create_time | create_id | update_time | update_id | tenant_id |
+>| ---- | ------ | ------- | ------------- | -------- | ----------- | --------- | ----------- | --------- | --------- |
+>| 参数 | Bigint | Bigint  | Bigint        | Int      | Date        | Bigint    | Date        | Bigint    | Bigint    |
