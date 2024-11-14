@@ -116,3 +116,23 @@
 >| 表单 | id     | User_id | restaurant_id | is_state | create_time | create_id | update_time | update_id | tenant_id |
 >| ---- | ------ | ------- | ------------- | -------- | ----------- | --------- | ----------- | --------- | --------- |
 >| 参数 | Bigint | Bigint  | Bigint        | Int      | Date        | Bigint    | Date        | Bigint    | Bigint    |
+
+## 界面展示
+
+>![img](http://49.235.121.195:9000/typora/6.42.png)
+>
+>![img](http://49.235.121.195:9000/typora/6.43.png)
+>
+>![img](http://49.235.121.195:9000/typora/6.44.png)
+>
+>![img](http://49.235.121.195:9000/typora/6.45.png)
+>
+>![img](http://49.235.121.195:9000/typora/6.50.png)
+>
+>![img](http://49.235.121.195:9000/typora/6.51.png)
+>
+>![img](http://49.235.121.195:9000/typora/6.58.png)
+>
+>![img](http://49.235.121.195:9000/typora/6.57.png)
+
+
